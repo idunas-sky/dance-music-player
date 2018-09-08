@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="@dimen/spacing_small"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_small"
+        android:id="@+id/img_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/spacing_small" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:id="@+id/lbl_title"
+        android:textSize="@dimen/body_medium"
+        android:layout_toRightOf="@+id/img_icon"
+        android:layout_toLeftOf="@+id/chx_selected" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sub_title"
+		android:textSize="@dimen/body_small"
+        android:id="@+id/lbl_sub_title"
+        android:layout_below="@+id/lbl_title"
+        android:layout_toRightOf="@+id/img_icon"
+        android:layout_toLeftOf="@+id/chx_selected" />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chx_selected"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true" />
+</RelativeLayout>

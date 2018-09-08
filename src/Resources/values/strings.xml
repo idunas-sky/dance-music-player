@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">TSG Player</string>
+    <string name="default_notification_channel_id">default</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="add_bookmark">Bookmark hinzufügen</string>
+    <string name="add_songs">Lieder hinzufügen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="message_delete_playlist">Soll die Playlist \'{0}\' unwiderruflich gelöscht werden?</string>
+    <string name="name">Name</string>
+    <string name="new_playlist">Neue Playlist</string>
+    <string name="ok">OK</string>
+    <string name="rationale_read_external_storage">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
+    <string name="save">Speichern</string>
+    <string name="title_delete_playlist">Playlist löschen?</string>
+</resources>

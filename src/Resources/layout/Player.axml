@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<RelativeLayout
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/pnl_speed"
+		android:layout_margin="@dimen/spacing_default">
+		<ImageView
+			android:src="@drawable/ic_play_speed"
+			android:id="@+id/img_speed"
+			android:layout_width="38dp"
+			android:layout_height="wrap_content" />
+		<SeekBar
+			android:id="@+id/seekBar_speed"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:max="130"
+			android:layout_marginHorizontal="@dimen/spacing_small"
+			android:layout_toLeftOf="@+id/lbl_speed"
+			android:layout_centerVertical="true"
+			android:layout_toRightOf="@+id/img_speed" />
+		<TextView
+			android:text="---%"
+			android:id="@+id/lbl_speed"
+			android:layout_width="38dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:textAlignment="center" />
+	</RelativeLayout>
+	<RelativeLayout
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/pnl_duration"
+		android:layout_margin="@dimen/spacing_default"
+		android:layout_below="@id/pnl_speed">
+		<TextView
+			android:text="---:---"
+			android:id="@+id/lbl_current_position"
+			android:layout_width="38dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:textAlignment="center" />
+		<SeekBar
+			android:id="@+id/seekBar_position"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:max="100"
+			android:layout_marginHorizontal="@dimen/spacing_small"
+			android:layout_toLeftOf="@+id/lbl_duration"
+			android:layout_centerVertical="true"
+			android:layout_toRightOf="@+id/lbl_current_position" />
+		<TextView
+			android:text="---:---"
+			android:id="@+id/lbl_duration"
+			android:layout_width="38dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:textAlignment="center" />
+	</RelativeLayout>
+	<LinearLayout
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_weight="1"
+		android:layout_height="wrap_content"
+		android:id="@+id/pnl_position_buttons"
+		android:layout_below="@id/pnl_duration"
+		android:layout_margin="@dimen/spacing_default">
+		<ImageButton
+			android:src="@drawable/ic_arrow_collapse_left"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/btn_set_loop_start"
+			android:layout_weight="1" />
+		<ImageButton
+			android:src="@drawable/ic_pin"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/btn_add_bookmark"
+			android:layout_weight="1" />
+		<ImageButton
+			android:src="@drawable/ic_arrow_collapse_right"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/btn_set_loop_end"
+			android:layout_weight="1" />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/pnl_player_controls"
+		android:layout_alignParentBottom="true"
+		android:layout_centerInParent="false"
+		android:layout_centerHorizontal="true">
+		<ImageButton
+			android:id="@+id/btn_previous"
+			android:src="@drawable/ic_skip_previous"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_margin="@dimen/spacing_default" />
+		<ImageButton
+			android:id="@+id/btn_play_pause"
+			android:src="@drawable/ic_play"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_margin="@dimen/spacing_default" />
+		<ImageButton
+			android:id="@+id/btn_next"
+			android:src="@drawable/ic_skip_next"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_margin="@dimen/spacing_default" />
+	</LinearLayout>
+	<android.support.v7.widget.RecyclerView
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/rvBookmarks"
+		android:layout_below="@id/pnl_position_buttons"
+		android:layout_above="@id/pnl_player_controls" />
+</RelativeLayout>

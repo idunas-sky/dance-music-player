@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:id="@+id/rvItems"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/bottom_bar" />
+    <FrameLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFF"
+        android:elevation="@dimen/elevation_small">
+        <Button
+            android:text="@string/ok"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/action_ok" />
+    </FrameLayout>
+</RelativeLayout>
