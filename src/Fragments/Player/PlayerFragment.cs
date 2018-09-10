@@ -33,7 +33,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         private ImageButton _btnNext;
 
 
-        public override string Title => _song?.Name;
+        public override string Title => _song?.Name ?? Context.GetString(Resource.String.no_song_selected);
 
         protected int PlaybackSpeed
         {
@@ -107,22 +107,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                 _controller.Connected += HandleControllerConnected;
                 _controller.Start();
             }
-            else if (_song != null && _restartPlayer)
-            {
-                // Player-Service is connected and the user wants to change
-                // the song
-                _controller.Service.Load(_song, _playlist);
-                PlaybackSpeed = _playlist.Speed;
-                _restartPlayer = false;
-            }
-            else
-            {
-                // Player-Service is connected and the user doesn't want to
-                // change the song. We need to update the UI to reflect the 
-                // state of the currently active song
-                SetDuration(_controller.Service.Duration);
-                SetPosition(_controller.Service.Position);
-            }
         }
 
         private void HandleControllerConnected(object sender, EventArgs e)
@@ -135,26 +119,16 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             if (_song != null)
             {
                 _controller.Service.Load(_song, _playlist);
-                _restartPlayer = false;
             }
         }
 
-        public void SetSong(Song song, Playlist playlist)
+        public void PlaySong(Song song, Playlist playlist)
         {
             _playlist = playlist;
             _song = song;
-            _restartPlayer = true;
 
-            if (_rvAdapter != null)
-            {
-                _rvAdapter.Song = song;
-                _rvAdapter.NotifyDataSetChanged();
-            }
-
-            if (MainActivity != null)
-            {
-                MainActivity.InvalidateActionBar();
-            }
+            PlaybackSpeed = _playlist.Speed;
+            _controller.Service.Load(_song, _playlist);
         }
 
         #endregion
@@ -196,12 +170,26 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         private void HandlePlayerServiceSongChanged(object sender, Song song)
         {
-            SetSong(song, _playlist);
+            _song = song;
+
+            if (_rvAdapter != null)
+            {
+                _rvAdapter.Song = song;
+                _rvAdapter.NotifyDataSetChanged();
+            }
+
+            //SetDuration(_controller.Service.Duration);
+            //SetPosition(_controller.Service.Position);
+
+            if (MainActivity != null)
+            {
+                MainActivity.InvalidateActionBar();
+            }
         }
 
         private void HandleSpeedChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
-            if(e.FromUser)
+            if (e.FromUser)
             {
                 _playlist.Speed = PlaybackSpeed;
                 PlaylistsService.Instance.Save();

@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
@@ -10,7 +11,6 @@ using Idunas.DanceMusicPlayer.Fragments.Player;
 using Idunas.DanceMusicPlayer.Fragments.Playlists;
 using Idunas.DanceMusicPlayer.Fragments.SongBar;
 using Idunas.DanceMusicPlayer.Models;
-using Idunas.DanceMusicPlayer.Util;
 using System;
 using System.Collections.Generic;
 
@@ -21,11 +21,11 @@ namespace Idunas.DanceMusicPlayer.Activities
     {
         #region --- Private member
 
-        private FrameLayout _containerSongBar;
+        private SongBarFragment FragmentSongBar { get; set; }
+        private PlayerFragment FragmentPlayer { get; set; }
+        private View ViewBottomShadow { get; set; }
 
-        private SongBarFragment _fragmentSongBar;
-        private PlayerFragment _fragmentPlayer;
-
+        private BottomSheetBehavior _bottomSheetBehavior;
         private Dictionary<Type, NavFragment> _fragments = new Dictionary<Type, NavFragment>();
 
         #endregion
@@ -34,9 +34,9 @@ namespace Idunas.DanceMusicPlayer.Activities
         {
             get
             {
-                if (_fragmentPlayer.IsVisible)
+                if (_bottomSheetBehavior.State == BottomSheetBehavior.StateExpanded)
                 {
-                    return _fragmentPlayer;
+                    return FragmentPlayer;
                 }
 
                 return SupportFragmentManager.FindFragmentById(Resource.Id.fragment_container);
@@ -52,65 +52,110 @@ namespace Idunas.DanceMusicPlayer.Activities
             SetContentView(Resource.Layout.Main);
             SupportFragmentManager.RegisterFragmentLifecycleCallbacks(new FragmentLifecycleManager(this), false);
 
-            MainLayout = FindViewById<View>(Resource.Id.layout_main);
-            _containerSongBar = FindViewById<FrameLayout>(Resource.Id.song_bar_container);
+            // Top actionbar / toolbar
+            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
+
+
+            // TODO
+            //MainLayout = FindViewById<View>(Resource.Id.layout_main);
 
             // Show initial main fragment
             ShowFragment(typeof(PlaylistsFragment), NavDirection.Forward, null);
 
-            // Pepare songbar & player
+            // Bottom sheet (Songbar)
             PrepareSongBar();
         }
 
-        #region --- SongBar / Player handling
-
         private void PrepareSongBar()
         {
-            _fragmentSongBar = new SongBarFragment();
-            _fragmentPlayer = new PlayerFragment();
+            var bottomBar = FindViewById<LinearLayout>(Resource.Id.bottom_sheet);
+            ViewBottomShadow = FindViewById<View>(Resource.Id.pnl_shadow);
+            _bottomSheetBehavior = BottomSheetBehavior.From(bottomBar);
+            FragmentSongBar = (SongBarFragment)SupportFragmentManager.FindFragmentById(Resource.Id.fragment_song_bar);
+            FragmentPlayer = (PlayerFragment)SupportFragmentManager.FindFragmentById(Resource.Id.fragment_player);
 
-            HidePlayer();
+            _bottomSheetBehavior.SetBottomSheetCallback(new SongbarSheetCallback(this));
         }
+
+
+        #region --- Bottom sheet layout handling
+
+        private class SongbarSheetCallback : BottomSheetBehavior.BottomSheetCallback
+        {
+            private readonly MainActivity _mainActivity;
+            private int _originalSongbarHeight = 0;
+
+            public SongbarSheetCallback(MainActivity mainActivity)
+            {
+                _mainActivity = mainActivity;
+            }
+
+            public override void OnSlide(View bottomSheet, float slideOffset)
+            {
+                // Nothing to do
+            }
+
+            public override void OnStateChanged(View bottomSheet, int newState)
+            {
+                // We need to hide the shadow when expanding to allow the bottom-toolbar to slide
+                // under the main toolbar. Respectively we need to show it again when collapsing
+                switch (newState)
+                {
+                    case BottomSheetBehavior.StateExpanded:
+                    {
+                        // Save previous height to restore it when collapsing
+                        var layoutParams = _mainActivity.FragmentSongBar.View.LayoutParameters;
+                        if (_originalSongbarHeight <= 0)
+                        {
+                            _originalSongbarHeight = layoutParams.Height;
+                        }
+
+                        // Adjust height ...
+                        layoutParams.Height = _mainActivity.SupportActionBar.Height;
+                        _mainActivity.FragmentSongBar.View.LayoutParameters = layoutParams;
+
+                        // ... and hide the shadow
+                        _mainActivity.ViewBottomShadow.Visibility = ViewStates.Gone;
+                        _mainActivity.InvalidateActionBar();
+                        break;
+                    }
+                    case BottomSheetBehavior.StateCollapsed:
+                    {
+                        // Restore previous height ...
+                        var layoutParams = _mainActivity.FragmentSongBar.View.LayoutParameters;
+                        if (_originalSongbarHeight > 0)
+                        {
+                            layoutParams.Height = _originalSongbarHeight;
+                        }
+                        _mainActivity.FragmentSongBar.View.LayoutParameters = layoutParams;
+
+                        // ... and show the shadow
+                        _mainActivity.ViewBottomShadow.Visibility = ViewStates.Visible;
+                        _mainActivity.InvalidateActionBar();
+                        break;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region --- SongBar / Player handling
 
         public void ShowPlayer(Song song = null, Playlist playlist = null)
         {
-            if (_fragmentPlayer.IsVisible)
-            {
-                return;
-            }
-
-            _containerSongBar.LayoutParameters = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MatchParent,
-                ViewGroup.LayoutParams.MatchParent);
-            _containerSongBar.RequestLayout();
+            _bottomSheetBehavior.State = BottomSheetBehavior.StateExpanded;
 
             if (song != null)
             {
-                _fragmentPlayer.SetSong(song, playlist);
+                FragmentPlayer.PlaySong(song, playlist);
             }
-
-            SupportFragmentManager
-                .BeginTransaction()
-                .Replace(Resource.Id.song_bar_container, _fragmentPlayer)
-                .Commit();
         }
 
         public void HidePlayer()
         {
-            if (_fragmentSongBar.IsVisible)
-            {
-                return;
-            }
-
-            _containerSongBar.LayoutParameters = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MatchParent,
-                DipConvert.ToPixel(this, 70));
-            _containerSongBar.RequestLayout();
-
-            SupportFragmentManager
-                .BeginTransaction()
-                .Replace(Resource.Id.song_bar_container, _fragmentSongBar)
-                .Commit();
+            _bottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
         }
 
         #endregion
@@ -189,7 +234,7 @@ namespace Idunas.DanceMusicPlayer.Activities
 
         public override void OnBackPressed()
         {
-            if(OnBackNavigationRequested())
+            if (OnBackNavigationRequested())
             {
                 return;
             }

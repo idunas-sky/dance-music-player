@@ -1,48 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@drawable/shadow"/>
+<android.support.v7.widget.Toolbar
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/toolbar"
+	android:minHeight="?attr/actionBarSize"
+	android:layout_width="match_parent"
+	android:layout_height="64dp"
+	android:background="?attr/colorPrimary"
+	app:titleTextColor="@android:color/white"
+	app:contentInsetLeft="0dp"
+	app:contentInsetStart="0dp"
+	app:contentInsetRight="0dp"
+	app:contentInsetEnd="0dp"
+	android:contentInsetLeft="0dp"
+	android:contentInsetStart="0dp"
+	android:contentInsetRight="0dp"
+	android:contentInsetEnd="0dp">
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center_vertical">
-		<ProgressBar
-			android:layout_width="30dp"
-			android:layout_height="30dp"
-			android:indeterminate="false"
-			android:progressDrawable="@drawable/circular_progress_bar"
-			android:background="@drawable/circular_progress_bar_background"
-			style="?android:attr/progressBarStyleHorizontal"
-			android:max="100"
-			android:progress="65"
-			android:id="@+id/progress_song"
-			android:layout_margin="@dimen/spacing_small" />
+		android:layout_height="match_parent"
+		android:gravity="center_vertical"
+		android:paddingLeft="@dimen/spacing_default"
+		android:paddingRight="@dimen/spacing_default">
+		<LinearLayout
+			android:layout_width="40dp"
+			android:layout_height="match_parent"
+			android:gravity="center">
+			<ProgressBar
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:indeterminate="false"
+				android:progressDrawable="@drawable/circular_progress_bar"
+				android:background="@drawable/circular_progress_bar_background"
+				style="?android:attr/progressBarStyleHorizontal"
+				android:max="100"
+				android:progress="0"
+				android:id="@+id/progress_song" />
+		</LinearLayout>
 		<TextView
 			android:text="Text"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:id="@+id/lbl_song"
-			android:layout_weight="1"
-			android:gravity="center_vertical" />
+			android:gravity="center_vertical"
+			android:textColor="@android:color/white"
+			android:layout_marginLeft="@dimen/spacing_small"
+			android:layout_weight="1" />
 		<ImageButton
-			android:src="@drawable/ic_play"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:src="@drawable/ic_play_white"
+			android:layout_width="@dimen/menu_item_size"
+			android:layout_height="@dimen/menu_item_size"
+			android:scaleType="fitCenter"
 			android:id="@+id/btn_play_pause"
 			android:layout_marginLeft="@dimen/spacing_small"
-			android:backgroundTint="#fffafafa" />
+			android:background="?attr/selectableItemBackgroundBorderless" />
 		<ImageButton
-			android:src="@drawable/ic_skip_next"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:src="@drawable/ic_skip_next_white"
+			android:layout_width="@dimen/menu_item_size"
+			android:layout_height="@dimen/menu_item_size"
+			android:scaleType="fitCenter"
 			android:id="@+id/btn_next"
-			android:layout_margin="@dimen/spacing_small"
-			android:backgroundTint="#fffafafa" />
+			android:background="?attr/selectableItemBackgroundBorderless"
+			android:layout_marginLeft="@dimen/spacing_small" />
 	</LinearLayout>
-</LinearLayout>
+    </android.support.v7.widget.Toolbar>
