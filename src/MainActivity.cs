@@ -34,7 +34,7 @@ namespace Idunas.DanceMusicPlayer.Activities
         {
             get
             {
-                if (_bottomSheetBehavior.State == BottomSheetBehavior.StateExpanded)
+                if (_bottomSheetBehavior.State != BottomSheetBehavior.StateCollapsed)
                 {
                     return FragmentPlayer;
                 }
@@ -102,6 +102,11 @@ namespace Idunas.DanceMusicPlayer.Activities
                 // under the main toolbar. Respectively we need to show it again when collapsing
                 switch (newState)
                 {
+                    case BottomSheetBehavior.StateSettling:
+                    {
+                        _mainActivity.InvalidateActionBar();
+                        break;
+                    }
                     case BottomSheetBehavior.StateExpanded:
                     {
                         // Save previous height to restore it when collapsing
