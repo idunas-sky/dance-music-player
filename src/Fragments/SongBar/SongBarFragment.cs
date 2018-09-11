@@ -77,12 +77,16 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
                 return;
             }
 
-            //Activity.RunOnUiThread(EnsureState);
+            Activity.RunOnUiThread(EnsureState);
         }
 
         private void HandlePlayerServiceSongChanged(object sender, Song song)
         {
-            Activity.RunOnUiThread(() => _lblSong.Text = song.Name);
+            Activity.RunOnUiThread(() =>
+            {
+                _lblSong.Text = song.Name;
+                EnsureState();
+            });
         }
 
         private void HandleSongLabelClick(object sender, EventArgs e)
@@ -108,5 +112,26 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
         }
 
         #endregion
+
+        private void EnsureState()
+        {
+            var isConnected = _controller?.Service != null;
+
+            // Disable / enable all buttons depending on connection
+            _btnPlayPause.Enabled = isConnected;
+            _btnNext.Enabled = isConnected;
+
+            if (!isConnected)
+            {
+                _btnPlayPause.SetImageResource(Resource.Drawable.ic_play_white);
+                return;
+            }
+
+            _btnPlayPause.SetImageResource(
+                _controller.Service.State == PlayerState.Playing
+                    ? Resource.Drawable.ic_pause_white
+                    : Resource.Drawable.ic_play_white);
+            _btnNext.Enabled = _controller.Service.HasNextSong;
+        }
     }
 }
