@@ -94,6 +94,7 @@
     <Compile Include="Services\PlaylistsService.cs" />
     <Compile Include="Util\AlertDialogUtils.cs" />
     <Compile Include="Util\DipConvert.cs" />
+    <Compile Include="Util\UserLockedBottomSheetBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
