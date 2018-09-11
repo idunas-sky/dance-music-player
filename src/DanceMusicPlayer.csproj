@@ -216,7 +216,7 @@
     <AndroidResource Include="Resources\drawable\ic_pencil.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_skip_previous.xml" />
+    <AndroidResource Include="Resources\drawable\ic_skip_previous_white.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_skip_next.xml" />

@@ -2456,7 +2456,7 @@ namespace Idunas.DanceMusicPlayer
 			public const int ic_skip_next_white = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int ic_skip_previous = 2130837620;
+			public const int ic_skip_previous_white = 2130837620;
 			
 			// aapt resource value: 0x7f020075
 			public const int navigation_empty_icon = 2130837621;
