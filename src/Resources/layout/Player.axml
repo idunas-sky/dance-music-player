@@ -78,16 +78,22 @@
 		android:layout_below="@id/pnl_duration"
 		android:layout_margin="@dimen/spacing_default">
 		<ImageButton
-			android:src="@drawable/ic_arrow_collapse_left"
+			android:src="@drawable/ic_loop"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:id="@+id/btn_set_loop_start"
+			android:id="@+id/btn_loop"
 			android:layout_weight="1" />
 		<ImageButton
 			android:src="@drawable/ic_pin"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/btn_add_bookmark"
+			android:layout_weight="1" />
+		<ImageButton
+			android:src="@drawable/ic_arrow_collapse_left"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/btn_set_loop_start"
 			android:layout_weight="1" />
 		<ImageButton
 			android:src="@drawable/ic_arrow_collapse_right"
