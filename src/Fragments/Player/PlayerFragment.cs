@@ -16,7 +16,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         private PlayerServiceController _controller;
         private Playlist _playlist;
         private Song _song;
-        private bool _restartPlayer;
 
         private TextView _lblSpeed;
         private SeekBar _seekBarSpeed;

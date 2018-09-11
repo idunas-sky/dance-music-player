@@ -38,14 +38,14 @@
 				android:id="@+id/progress_song" />
 		</LinearLayout>
 		<TextView
-			android:text="Text"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:id="@+id/lbl_song"
 			android:gravity="center_vertical"
 			android:textColor="@android:color/white"
 			android:layout_marginLeft="@dimen/spacing_small"
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:text="@string/no_song_selected" />
 		<ImageButton
 			android:src="@drawable/ic_play_white"
 			android:layout_width="@dimen/menu_item_size"
