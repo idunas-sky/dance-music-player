@@ -1,4 +1,5 @@
-﻿using Android.OS;
+﻿using Android.Graphics;
+using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -22,15 +23,17 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         private TextView _lblCurrentPosition;
         private TextView _lblDuration;
         private SeekBar _seekBarPosition;
+        private ImageButton _btnToggleLooping;
+        private ImageButton _btnAddBookmark;
         private ImageButton _btnSetLoopStartMarker;
         private ImageButton _btnSetLoopEndMarker;
-        private ImageButton _btnAddBookmark;
         private RecyclerView _rvBookmarks;
         private BookmarksRvAdapter _rvAdapter;
         private ImageButton _btnPlayPause;
         private ImageButton _btnPrevious;
         private ImageButton _btnNext;
 
+        private Color _accentColor;
 
         public override string Title => _song?.Name ?? Context.GetString(Resource.String.no_song_selected);
 
@@ -46,6 +49,11 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         {
             var view = inflater.Inflate(Resource.Layout.Player, container, false);
 
+            using (var styleAttributes = Activity.Theme.ObtainStyledAttributes(new[] { Android.Resource.Attribute.ColorAccent }))
+            {
+                _accentColor = styleAttributes.GetColor(0, 0);
+            }
+
             // Speed
             _seekBarSpeed = view.FindViewById<SeekBar>(Resource.Id.seekBar_speed);
             _seekBarSpeed.ProgressChanged += HandleSpeedChanged;
@@ -58,14 +66,16 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _seekBarPosition.ProgressChanged += HandlePositionChanged;
 
             // Markers
+            _btnToggleLooping = view.FindViewById<ImageButton>(Resource.Id.btn_loop);
+            _btnToggleLooping.Click += HandleToggleLoopingClick;
+            _btnAddBookmark = view.FindViewById<ImageButton>(Resource.Id.btn_add_bookmark);
+            _btnAddBookmark.Click += HandleAddBookmarkClick;
             _btnSetLoopStartMarker = view.FindViewById<ImageButton>(Resource.Id.btn_set_loop_start);
             _btnSetLoopStartMarker.Click += HandleSetStartLoopMarkerClick;
             _btnSetLoopStartMarker.LongClick += HandleSetStartLoopMarkerLongClick;
             _btnSetLoopEndMarker = view.FindViewById<ImageButton>(Resource.Id.btn_set_loop_end);
             _btnSetLoopEndMarker.Click += HandleSetEndLoopMarkerClick;
             _btnSetLoopEndMarker.LongClick += HandleSetEndLoopMarkerLongClick;
-            _btnAddBookmark = view.FindViewById<ImageButton>(Resource.Id.btn_add_bookmark);
-            _btnAddBookmark.Click += HandleAddBookmarkClick;
             _rvBookmarks = view.FindViewById<RecyclerView>(Resource.Id.rvBookmarks);
             _rvBookmarks.HasFixedSize = true;
             _rvBookmarks.SetLayoutManager(new LinearLayoutManager(Context));
@@ -127,6 +137,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _song = song;
 
             PlaybackSpeed = _playlist.Speed;
+            EnsureState();
+
             _controller.Service.Load(_song, _playlist);
         }
 
@@ -177,9 +189,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                 _rvAdapter.NotifyDataSetChanged();
             }
 
-            //SetDuration(_controller.Service.Duration);
-            //SetPosition(_controller.Service.Position);
-
             if (MainActivity != null)
             {
                 MainActivity.InvalidateActionBar();
@@ -208,28 +217,75 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             SeekTo(e.Progress);
         }
 
+        private void HandleToggleLoopingClick(object sender, EventArgs e)
+        {
+            if (_song == null)
+            {
+                return;
+            }
+
+            _song.IsLooping = !_song.IsLooping;
+            PlaylistsService.Instance.Save();
+            EnsureState();
+        }
+
         private void HandleSetStartLoopMarkerClick(object sender, EventArgs e)
         {
+            if (_song == null)
+            {
+                return;
+            }
+
             _song.LoopMarkerStart = _seekBarPosition.Progress;
+            _song.IsLooping = true;
+            PlaylistsService.Instance.Save();
+            EnsureState();
         }
 
         private void HandleSetStartLoopMarkerLongClick(object sender, View.LongClickEventArgs e)
         {
+            if (_song == null)
+            {
+                return;
+            }
+
             _song.LoopMarkerStart = null;
+            PlaylistsService.Instance.Save();
+            EnsureState();
         }
 
         private void HandleSetEndLoopMarkerClick(object sender, EventArgs e)
         {
+            if (_song == null)
+            {
+                return;
+            }
+
             _song.LoopMarkerEnd = _seekBarPosition.Progress;
+            _song.IsLooping = true;
+            PlaylistsService.Instance.Save();
+            EnsureState();
         }
 
         private void HandleSetEndLoopMarkerLongClick(object sender, View.LongClickEventArgs e)
         {
+            if (_song == null)
+            {
+                return;
+            }
+
             _song.LoopMarkerEnd = null;
+            PlaylistsService.Instance.Save();
+            EnsureState();
         }
 
         private async void HandleAddBookmarkClick(object sender, EventArgs e)
         {
+            if (_song == null)
+            {
+                return;
+            }
+
             var position = _seekBarPosition.Progress;
             var dialogResult = await AlertDialogUtils.ShowEditTextDialog(
                 Context,
@@ -311,6 +367,10 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                 _btnPlayPause.SetImageResource(Resource.Drawable.ic_play);
                 return;
             }
+
+            _btnToggleLooping.SetColorFilter(_song != null && _song.IsLooping ? _accentColor : Color.LightGray);
+            _btnSetLoopStartMarker.SetColorFilter(_song?.LoopMarkerStart != null ? _accentColor : Color.LightGray);
+            _btnSetLoopEndMarker.SetColorFilter(_song?.LoopMarkerEnd != null ? _accentColor : Color.LightGray);
 
             _btnPlayPause.SetImageResource(
                 _controller.Service.State == PlayerState.Playing

@@ -2648,8 +2648,8 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f08009f
 			public const int bottom_sheet = 2131230879;
 			
-			// aapt resource value: 0x7f0800c0
-			public const int btn_add_bookmark = 2131230912;
+			// aapt resource value: 0x7f0800c2
+			public const int btn_add_bookmark = 2131230914;
 			
 			// aapt resource value: 0x7f0800bf
 			public const int btn_loop = 2131230911;
@@ -2663,11 +2663,11 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f0800c4
 			public const int btn_previous = 2131230916;
 			
-			// aapt resource value: 0x7f0800c2
-			public const int btn_set_loop_end = 2131230914;
-			
 			// aapt resource value: 0x7f0800c1
-			public const int btn_set_loop_start = 2131230913;
+			public const int btn_set_loop_end = 2131230913;
+			
+			// aapt resource value: 0x7f0800c0
+			public const int btn_set_loop_start = 2131230912;
 			
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;

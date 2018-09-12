@@ -11,6 +11,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         event EventHandler<PlayerState> StateChanged;
         event EventHandler<Song> SongChanged;
 
+        bool IsLooping { get; set; }
+
         bool HasNextSong { get; }
 
         bool HasPreviousSong { get; }

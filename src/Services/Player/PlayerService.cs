@@ -36,8 +36,21 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             _positionReportTimer = new Timer(1000);
             _positionReportTimer.Elapsed += (sender, e) =>
             {
-                if (State == PlayerState.Playing)
+                if (State != PlayerState.Playing)
                 {
+                    return;
+                }
+
+                FirePositionChanged(_player.CurrentPosition);
+
+                // Check if we need to seek to a previous position
+                // due to looping
+                var currentSong = _playlist.Songs[_currentSongIndex];
+                if (currentSong.IsLooping &&
+                    currentSong.LoopMarkerEnd != null && 
+                    _player.CurrentPosition >= currentSong.LoopMarkerEnd)
+                {
+                    SeekTo(currentSong.LoopMarkerStart ?? 0);
                     FirePositionChanged(_player.CurrentPosition);
                 }
             };
@@ -79,12 +92,21 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         private async void HandlePlayerCompletion(object sender, EventArgs e)
         {
+            var currentSong = _playlist.Songs[_currentSongIndex];
+            if (currentSong.IsLooping)
+            {
+                SeekTo(currentSong.LoopMarkerStart ?? 0);
+                _player.Start();
+                return;
+            }
+
             if (HasNextSong)
             {
                 await PlayNextSong();
                 return;
             }
 
+            _positionReportTimer.Stop();
             SetPlayerState(PlayerState.Stopped);
         }
 
@@ -150,6 +172,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         public int Duration => _player?.Duration ?? 0;
 
         public int Position => _player?.CurrentPosition ?? 0;
+
+        public bool IsLooping { get; set; }
 
         public bool HasNextSong => _currentSongIndex < _playlist?.Songs.Count - 1;
 

@@ -85,6 +85,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
             Activity.RunOnUiThread(() =>
             {
                 _lblSong.Text = song.Name;
+
                 EnsureState();
             });
         }

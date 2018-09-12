@@ -11,6 +11,8 @@ namespace Idunas.DanceMusicPlayer.Models
 
         public DateTime AddedOn { get; set; }
 
+        public bool IsLooping { get; set; }
+
         public int? LoopMarkerStart { get; set; }
 
         public int? LoopMarkerEnd { get; set; }

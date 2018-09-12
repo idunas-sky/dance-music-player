@@ -79,27 +79,35 @@
 		android:layout_margin="@dimen/spacing_default">
 		<ImageButton
 			android:src="@drawable/ic_loop"
+			android:background="@android:color/transparent"
+			android:padding="@dimen/spacing_small"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/btn_loop"
 			android:layout_weight="1" />
 		<ImageButton
-			android:src="@drawable/ic_pin"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/btn_add_bookmark"
-			android:layout_weight="1" />
-		<ImageButton
 			android:src="@drawable/ic_arrow_collapse_left"
+			android:background="@android:color/transparent"
+			android:padding="@dimen/spacing_small"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/btn_set_loop_start"
 			android:layout_weight="1" />
 		<ImageButton
 			android:src="@drawable/ic_arrow_collapse_right"
+			android:background="@android:color/transparent"
+			android:padding="@dimen/spacing_small"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/btn_set_loop_end"
+			android:layout_weight="1" />
+		<ImageButton
+			android:src="@drawable/ic_pin"
+			android:background="@android:color/transparent"
+			android:padding="@dimen/spacing_small"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/btn_add_bookmark"
 			android:layout_weight="1" />
 	</LinearLayout>
 	<LinearLayout
