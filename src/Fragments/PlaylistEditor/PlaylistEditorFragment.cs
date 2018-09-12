@@ -38,9 +38,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistEditor
         {
             var view = inflater.Inflate(Resource.Layout.PlaylistEditor, container, false);
             _inputName = view.FindViewById<TextInputEditText>(Resource.Id.input_name);
-            _inputName.Text = Playlist.Name;
-
             return view;
+        }
+
+        public override void OnResume()
+        {
+            _inputName.Text = Playlist.Name;
+            base.OnResume();
         }
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
