@@ -123,14 +123,14 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
 
             if (!isConnected)
             {
-                _btnPlayPause.SetImageResource(Resource.Drawable.ic_play_white);
+                _btnPlayPause.SetImageResource(Resource.Drawable.ic_play);
                 return;
             }
 
             _btnPlayPause.SetImageResource(
                 _controller.Service.State == PlayerState.Playing
-                    ? Resource.Drawable.ic_pause_white
-                    : Resource.Drawable.ic_play_white);
+                    ? Resource.Drawable.ic_pause
+                    : Resource.Drawable.ic_play);
             _btnNext.Enabled = _controller.Service.HasNextSong;
         }
     }

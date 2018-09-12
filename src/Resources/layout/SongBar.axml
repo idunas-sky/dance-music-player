@@ -47,7 +47,8 @@
 			android:layout_weight="1"
 			android:text="@string/no_song_selected" />
 		<ImageButton
-			android:src="@drawable/ic_play_white"
+			android:src="@drawable/ic_play"
+			android:tint="#fff"
 			android:layout_width="@dimen/menu_item_size"
 			android:layout_height="@dimen/menu_item_size"
 			android:scaleType="fitCenter"
@@ -55,7 +56,8 @@
 			android:layout_marginLeft="@dimen/spacing_small"
 			android:background="?attr/selectableItemBackgroundBorderless" />
 		<ImageButton
-			android:src="@drawable/ic_skip_next_white"
+			android:src="@drawable/ic_skip_next"
+			android:tint="#fff"
 			android:layout_width="@dimen/menu_item_size"
 			android:layout_height="@dimen/menu_item_size"
 			android:scaleType="fitCenter"
