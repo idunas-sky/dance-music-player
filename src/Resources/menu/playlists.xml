@@ -7,4 +7,10 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_plus"
         android:title="@string/new_playlist"/>
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="999"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_info_outline"
+        android:title="@string/about"/>
 </menu>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<ScrollView
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/scrollView1" >
+		<LinearLayout
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:padding="@dimen/spacing_default"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/linearLayout1" >
+			<TextView
+				android:text="@string/about"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView1" />
+			<TextView
+				android:text="@string/about_me"
+				android:autoLink="web"
+				android:layout_marginTop="@dimen/spacing_very_small"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+			<TextView
+				android:text="@string/about_licenses"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_marginTop="@dimen/spacing_large"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView3" />
+			<TextView
+				android:text="Material Design Icons"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_marginTop="@dimen/spacing_small"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView5" />
+			<TextView
+				android:text="@string/license_material_design_icons"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView4" />
+		</LinearLayout>
+	</ScrollView>
+
+</LinearLayout>

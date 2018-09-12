@@ -1,6 +1,7 @@
 ﻿using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Idunas.DanceMusicPlayer.Fragments.About;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistDetails;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistEditor;
 using Idunas.DanceMusicPlayer.Models;
@@ -34,14 +35,25 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            if (item.ItemId == Resource.Id.action_new)
+            switch (item.ItemId)
             {
-                NavigateTo<PlaylistEditorFragment>(initalizer: f =>
+                case Resource.Id.action_new:
                 {
-                    f.Playlist = new Playlist();
-                    f.IsNew = true;
-                });
+                    NavigateTo<PlaylistEditorFragment>(initalizer: f =>
+                    {
+                        f.Playlist = new Playlist();
+                        f.IsNew = true;
+                    });
+                    break;
+                }
+                case Resource.Id.action_about:
+                {
+                    NavigateTo<AboutFragment>(NavDirection.Forward);
+                    break;
+                }
             }
+
+
 
             return base.OnOptionsItemSelected(item);
         }
