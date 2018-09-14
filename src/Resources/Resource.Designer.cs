@@ -2537,11 +2537,11 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f0800ad
 			public const int action0 = 2131230893;
 			
-			// aapt resource value: 0x7f0800e3
-			public const int action_about = 2131230947;
+			// aapt resource value: 0x7f0800e4
+			public const int action_about = 2131230948;
 			
-			// aapt resource value: 0x7f0800df
-			public const int action_add_songs = 2131230943;
+			// aapt resource value: 0x7f0800e0
+			public const int action_add_songs = 2131230944;
 			
 			// aapt resource value: 0x7f08007c
 			public const int action_bar = 2131230844;
@@ -2570,14 +2570,14 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f08007d
 			public const int action_context_bar = 2131230845;
 			
-			// aapt resource value: 0x7f0800de
-			public const int action_delete = 2131230942;
+			// aapt resource value: 0x7f0800df
+			public const int action_delete = 2131230943;
 			
 			// aapt resource value: 0x7f0800b1
 			public const int action_divider = 2131230897;
 			
-			// aapt resource value: 0x7f0800e0
-			public const int action_edit = 2131230944;
+			// aapt resource value: 0x7f0800e1
+			public const int action_edit = 2131230945;
 			
 			// aapt resource value: 0x7f0800ab
 			public const int action_image = 2131230891;
@@ -2600,14 +2600,14 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f08005c
 			public const int action_mode_close_button = 2131230812;
 			
+			// aapt resource value: 0x7f0800e3
+			public const int action_new = 2131230947;
+			
+			// aapt resource value: 0x7f0800da
+			public const int action_ok = 2131230938;
+			
 			// aapt resource value: 0x7f0800e2
-			public const int action_new = 2131230946;
-			
-			// aapt resource value: 0x7f0800d9
-			public const int action_ok = 2131230937;
-			
-			// aapt resource value: 0x7f0800e1
-			public const int action_save = 2131230945;
+			public const int action_save = 2131230946;
 			
 			// aapt resource value: 0x7f0800ac
 			public const int action_text = 2131230892;
@@ -2648,32 +2648,32 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f08003d
 			public const int bottom = 2131230781;
 			
-			// aapt resource value: 0x7f0800d8
-			public const int bottom_bar = 2131230936;
+			// aapt resource value: 0x7f0800d9
+			public const int bottom_bar = 2131230937;
 			
 			// aapt resource value: 0x7f0800a6
 			public const int bottom_sheet = 2131230886;
 			
-			// aapt resource value: 0x7f0800c9
-			public const int btn_add_bookmark = 2131230921;
-			
-			// aapt resource value: 0x7f0800c6
-			public const int btn_loop = 2131230918;
-			
-			// aapt resource value: 0x7f0800cd
-			public const int btn_next = 2131230925;
-			
-			// aapt resource value: 0x7f0800cc
-			public const int btn_play_pause = 2131230924;
-			
-			// aapt resource value: 0x7f0800cb
-			public const int btn_previous = 2131230923;
-			
-			// aapt resource value: 0x7f0800c8
-			public const int btn_set_loop_end = 2131230920;
+			// aapt resource value: 0x7f0800ca
+			public const int btn_add_bookmark = 2131230922;
 			
 			// aapt resource value: 0x7f0800c7
-			public const int btn_set_loop_start = 2131230919;
+			public const int btn_loop = 2131230919;
+			
+			// aapt resource value: 0x7f0800ce
+			public const int btn_next = 2131230926;
+			
+			// aapt resource value: 0x7f0800cd
+			public const int btn_play_pause = 2131230925;
+			
+			// aapt resource value: 0x7f0800cc
+			public const int btn_previous = 2131230924;
+			
+			// aapt resource value: 0x7f0800c9
+			public const int btn_set_loop_end = 2131230921;
+			
+			// aapt resource value: 0x7f0800c8
+			public const int btn_set_loop_start = 2131230920;
 			
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;
@@ -2696,8 +2696,8 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f0800b6
 			public const int chronometer = 2131230902;
 			
-			// aapt resource value: 0x7f0800db
-			public const int chx_selected = 2131230939;
+			// aapt resource value: 0x7f0800dc
+			public const int chx_selected = 2131230940;
 			
 			// aapt resource value: 0x7f08004e
 			public const int clip_horizontal = 2131230798;
@@ -2819,17 +2819,17 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f080092
 			public const int img_icon = 2131230866;
 			
-			// aapt resource value: 0x7f0800be
-			public const int img_speed = 2131230910;
+			// aapt resource value: 0x7f0800bf
+			public const int img_speed = 2131230911;
 			
 			// aapt resource value: 0x7f0800b7
 			public const int info = 2131230903;
 			
-			// aapt resource value: 0x7f0800d1
-			public const int input_layout_name = 2131230929;
-			
 			// aapt resource value: 0x7f0800d2
-			public const int input_name = 2131230930;
+			public const int input_layout_name = 2131230930;
+			
+			// aapt resource value: 0x7f0800d3
+			public const int input_name = 2131230931;
 			
 			// aapt resource value: 0x7f080059
 			public const int italic = 2131230809;
@@ -2840,26 +2840,26 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f080096
 			public const int largeLabel = 2131230870;
 			
-			// aapt resource value: 0x7f0800c2
-			public const int lbl_current_position = 2131230914;
+			// aapt resource value: 0x7f0800c3
+			public const int lbl_current_position = 2131230915;
 			
-			// aapt resource value: 0x7f0800c4
-			public const int lbl_duration = 2131230916;
-			
-			// aapt resource value: 0x7f0800d3
-			public const int lbl_name = 2131230931;
-			
-			// aapt resource value: 0x7f0800d7
-			public const int lbl_song = 2131230935;
+			// aapt resource value: 0x7f0800c5
+			public const int lbl_duration = 2131230917;
 			
 			// aapt resource value: 0x7f0800d4
-			public const int lbl_song_count = 2131230932;
+			public const int lbl_name = 2131230932;
 			
-			// aapt resource value: 0x7f0800c0
-			public const int lbl_speed = 2131230912;
+			// aapt resource value: 0x7f0800d8
+			public const int lbl_song = 2131230936;
 			
-			// aapt resource value: 0x7f0800cf
-			public const int lbl_sub_title = 2131230927;
+			// aapt resource value: 0x7f0800d5
+			public const int lbl_song_count = 2131230933;
+			
+			// aapt resource value: 0x7f0800c1
+			public const int lbl_speed = 2131230913;
+			
+			// aapt resource value: 0x7f0800d0
+			public const int lbl_sub_title = 2131230928;
 			
 			// aapt resource value: 0x7f080093
 			public const int lbl_title = 2131230867;
@@ -2882,14 +2882,17 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f080061
 			public const int list_item = 2131230817;
 			
-			// aapt resource value: 0x7f0800dd
-			public const int masked = 2131230941;
+			// aapt resource value: 0x7f0800bd
+			public const int loop_position_indicator = 2131230909;
+			
+			// aapt resource value: 0x7f0800de
+			public const int masked = 2131230942;
 			
 			// aapt resource value: 0x7f0800b0
 			public const int media_actions = 2131230896;
 			
-			// aapt resource value: 0x7f0800da
-			public const int message = 2131230938;
+			// aapt resource value: 0x7f0800db
+			public const int message = 2131230939;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2933,20 +2936,20 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f08004d
 			public const int pin = 2131230797;
 			
-			// aapt resource value: 0x7f0800c1
-			public const int pnl_duration = 2131230913;
+			// aapt resource value: 0x7f0800c2
+			public const int pnl_duration = 2131230914;
 			
-			// aapt resource value: 0x7f0800ca
-			public const int pnl_player_controls = 2131230922;
+			// aapt resource value: 0x7f0800cb
+			public const int pnl_player_controls = 2131230923;
 			
-			// aapt resource value: 0x7f0800c5
-			public const int pnl_position_buttons = 2131230917;
+			// aapt resource value: 0x7f0800c6
+			public const int pnl_position_buttons = 2131230918;
 			
 			// aapt resource value: 0x7f0800a7
 			public const int pnl_shadow = 2131230887;
 			
-			// aapt resource value: 0x7f0800bd
-			public const int pnl_speed = 2131230909;
+			// aapt resource value: 0x7f0800be
+			public const int pnl_speed = 2131230910;
 			
 			// aapt resource value: 0x7f080006
 			public const int progress_circular = 2131230726;
@@ -2954,8 +2957,8 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f080007
 			public const int progress_horizontal = 2131230727;
 			
-			// aapt resource value: 0x7f0800d6
-			public const int progress_song = 2131230934;
+			// aapt resource value: 0x7f0800d7
+			public const int progress_song = 2131230935;
 			
 			// aapt resource value: 0x7f080075
 			public const int radio = 2131230837;
@@ -2969,14 +2972,14 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f0800b4
 			public const int right_side = 2131230900;
 			
-			// aapt resource value: 0x7f0800ce
-			public const int rvBookmarks = 2131230926;
+			// aapt resource value: 0x7f0800cf
+			public const int rvBookmarks = 2131230927;
 			
-			// aapt resource value: 0x7f0800d0
-			public const int rvItems = 2131230928;
+			// aapt resource value: 0x7f0800d1
+			public const int rvItems = 2131230929;
 			
-			// aapt resource value: 0x7f0800d5
-			public const int rvPlaylists = 2131230933;
+			// aapt resource value: 0x7f0800d6
+			public const int rvPlaylists = 2131230934;
 			
 			// aapt resource value: 0x7f08000c
 			public const int save_image_matrix = 2131230732;
@@ -3038,11 +3041,11 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f080089
 			public const int search_voice_btn = 2131230857;
 			
-			// aapt resource value: 0x7f0800c3
-			public const int seekBar_position = 2131230915;
+			// aapt resource value: 0x7f0800c4
+			public const int seekBar_position = 2131230916;
 			
-			// aapt resource value: 0x7f0800bf
-			public const int seekBar_speed = 2131230911;
+			// aapt resource value: 0x7f0800c0
+			public const int seekBar_speed = 2131230912;
 			
 			// aapt resource value: 0x7f08008a
 			public const int select_dialog_listview = 2131230858;
@@ -3191,8 +3194,8 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800dc
-			public const int visible = 2131230940;
+			// aapt resource value: 0x7f0800dd
+			public const int visible = 2131230941;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;

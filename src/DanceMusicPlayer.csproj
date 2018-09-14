@@ -66,6 +66,7 @@
     <Compile Include="Fragments\NavigationEventArgs.cs" />
     <Compile Include="Fragments\Player\BookmarkItemViewHolder.cs" />
     <Compile Include="Fragments\Player\BookmarksRvAdapter.cs" />
+    <Compile Include="Fragments\Player\LoopPositionIndicatorView.cs" />
     <Compile Include="Fragments\Player\PlayerFragment.cs" />
     <Compile Include="Fragments\PlaylistDetails\PlaylistDetailItemViewHolder.cs" />
     <Compile Include="Fragments\PlaylistDetails\PlaylistDetailsFragment.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Services\PlaylistsService.cs" />
     <Compile Include="Util\AlertDialogUtils.cs" />
     <Compile Include="Util\DipConvert.cs" />
+    <Compile Include="Util\Location.cs" />
     <Compile Include="Util\UserLockedBottomSheetBehavior.cs" />
   </ItemGroup>
   <ItemGroup>

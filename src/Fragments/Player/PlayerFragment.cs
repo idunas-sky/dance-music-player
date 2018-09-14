@@ -23,6 +23,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         private TextView _lblCurrentPosition;
         private TextView _lblDuration;
         private SeekBar _seekBarPosition;
+        private LoopPositionIndicatorView _loopPositionIndicator;
+
         private ImageButton _btnToggleLooping;
         private ImageButton _btnAddBookmark;
         private ImageButton _btnSetLoopStartMarker;
@@ -84,6 +86,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _rvAdapter.BookmarkClick += (sender, e) => SeekTo(e.Position);
             _rvBookmarks.SetAdapter(_rvAdapter);
 
+            // Indicators
+            _loopPositionIndicator = view.FindViewById<LoopPositionIndicatorView>(Resource.Id.loop_position_indicator);
+            _loopPositionIndicator.SeekBarPosition = _seekBarPosition;
+            _loopPositionIndicator.ButtonStartLoopMarker = _btnSetLoopStartMarker;
+            _loopPositionIndicator.ButtonEndLoopMarker = _btnSetLoopEndMarker;
+            _loopPositionIndicator.Color = _accentColor;
+
             // Player controls
             _btnPlayPause = view.FindViewById<ImageButton>(Resource.Id.btn_play_pause);
             _btnPlayPause.Click += HandlePlayPauseClick;
@@ -96,7 +105,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             PlaybackSpeed = 100;
 
             EnsureState();
-
             return view;
         }
 
@@ -238,6 +246,12 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
             _song.LoopMarkerStart = _seekBarPosition.Progress;
             _song.IsLooping = true;
+
+            if (_song.LoopMarkerEnd <= _song.LoopMarkerStart)
+            {
+                _song.LoopMarkerEnd = null;
+            }
+
             PlaylistsService.Instance.Save();
             EnsureState();
         }
@@ -263,6 +277,12 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
             _song.LoopMarkerEnd = _seekBarPosition.Progress;
             _song.IsLooping = true;
+
+            if (_song.LoopMarkerStart >= _song.LoopMarkerEnd)
+            {
+                _song.LoopMarkerStart = null;
+            }
+
             PlaylistsService.Instance.Save();
             EnsureState();
         }
@@ -371,6 +391,9 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _btnToggleLooping.SetColorFilter(_song != null && _song.IsLooping ? _accentColor : Color.LightGray);
             _btnSetLoopStartMarker.SetColorFilter(_song?.LoopMarkerStart != null ? _accentColor : Color.LightGray);
             _btnSetLoopEndMarker.SetColorFilter(_song?.LoopMarkerEnd != null ? _accentColor : Color.LightGray);
+
+            _loopPositionIndicator.LoopMarkerStart = _song?.LoopMarkerStart;
+            _loopPositionIndicator.LoopMarkerEnd = _song?.LoopMarkerEnd;
 
             _btnPlayPause.SetImageResource(
                 _controller.Service.State == PlayerState.Playing
