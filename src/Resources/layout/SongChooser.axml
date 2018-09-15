@@ -11,17 +11,4 @@
         android:id="@+id/rvItems"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/bottom_bar" />
-    <FrameLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#FFF"
-        android:elevation="@dimen/elevation_small">
-        <Button
-            android:text="@string/ok"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/action_ok" />
-    </FrameLayout>
 </RelativeLayout>

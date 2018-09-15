@@ -21,10 +21,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
     {
         private const int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 1;
 
-        
         private SongChooserRvAdapter _rvAdapter;
         private RecyclerView _rvItems;
-        private Button _btnOk;
 
         public Playlist Playlist { get; set; }
 
@@ -41,9 +39,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
         {
             var view = inflater.Inflate(Resource.Layout.SongChooser, container, false);
 
-            _btnOk = view.FindViewById<Button>(Resource.Id.action_ok);
-            _btnOk.Click += (sender, e) => SaveSelectedSongs();
-
             _rvItems = view.FindViewById<RecyclerView>(Resource.Id.rvItems);
             _rvItems.HasFixedSize = true;
             _rvItems.SetLayoutManager(new LinearLayoutManager(Context));
@@ -58,6 +53,23 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
             }
 
             return view;
+        }
+
+
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            inflater.Inflate(Resource.Menu.song_chooser, menu);
+            base.OnCreateOptionsMenu(menu, inflater);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.action_save)
+            {
+                SaveSelectedSongs();
+            }
+
+            return base.OnOptionsItemSelected(item);
         }
 
         private void SaveSelectedSongs()
