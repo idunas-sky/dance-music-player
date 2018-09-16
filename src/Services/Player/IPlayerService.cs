@@ -23,6 +23,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         int Duration { get; }
 
+        Song CurrentSong { get; }
+
         Task Load(Song song, Playlist playlist);
 
         void Play();

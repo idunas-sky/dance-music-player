@@ -48,6 +48,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
 
         private void HandleControllerConnected(object sender, EventArgs e)
         {
+            // Get the current state of the player once
+            HandlePlayerServiceStateChanged(null, _controller.Service.State);
+            HandlePlayerServiceSongChanged(null, _controller.Service.CurrentSong);
+            HandlePlayerServiceDurationChanged(null, _controller.Service.Duration);
+            HandlePlayerServicePositionChanged(null, _controller.Service.Position);
+
+            // Subscribe for future updates
             _controller.Service.PositionChanged += HandlePlayerServicePositionChanged;
             _controller.Service.DurationChanged += HandlePlayerServiceDurationChanged;
             _controller.Service.StateChanged += HandlePlayerServiceStateChanged;
@@ -84,7 +91,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
         {
             Activity.RunOnUiThread(() =>
             {
-                _lblSong.Text = song.Name;
+                _lblSong.Text = song?.Name ?? Context.GetString(Resource.String.no_song_selected);
 
                 EnsureState();
             });

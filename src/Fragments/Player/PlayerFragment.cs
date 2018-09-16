@@ -128,15 +128,17 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         private void HandleControllerConnected(object sender, EventArgs e)
         {
+            // Get the current state of the player once
+            HandlePlayerServiceStateChanged(null, _controller.Service.State);
+            HandlePlayerServiceSongChanged(null, _controller.Service.CurrentSong);
+            HandlePlayerServiceDurationChanged(null, _controller.Service.Duration);
+            HandlePlayerServicePositionChanged(null, _controller.Service.Position);
+
+            // Subscribe for future updates
             _controller.Service.PositionChanged += HandlePlayerServicePositionChanged;
             _controller.Service.DurationChanged += HandlePlayerServiceDurationChanged;
             _controller.Service.StateChanged += HandlePlayerServiceStateChanged;
             _controller.Service.SongChanged += HandlePlayerServiceSongChanged;
-
-            if (_song != null)
-            {
-                _controller.Service.Load(_song, _playlist);
-            }
         }
 
         public void PlaySong(Song song, Playlist playlist)

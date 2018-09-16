@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -30,6 +31,10 @@ namespace Idunas.DanceMusicPlayer.Activities
 
         #endregion
 
+        #region --- Public properties
+
+        public const string NOTIFICATION_CHANNEL_ID = "Player_Notification_Channel";
+
         public Android.Support.V4.App.Fragment MainFragment
         {
             get
@@ -45,6 +50,8 @@ namespace Idunas.DanceMusicPlayer.Activities
 
         public static View MainLayout { get; private set; }
 
+        #endregion
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -56,6 +63,9 @@ namespace Idunas.DanceMusicPlayer.Activities
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
+            // Create the notification channel we will use to display
+            // the player notification
+            CreateNotificationChannel();
 
             // TODO
             //MainLayout = FindViewById<View>(Resource.Id.layout_main);
@@ -65,6 +75,21 @@ namespace Idunas.DanceMusicPlayer.Activities
 
             // Bottom sheet (Songbar)
             PrepareSongBar();
+        }
+
+        private void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                return;
+            }
+
+            var channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Player", NotificationImportance.High)
+            {
+                Description = GetString(Resource.String.notification_channel_description)
+            };
+
+            ((NotificationManager)GetSystemService(Context.NotificationService)).CreateNotificationChannel(channel);
         }
 
         private void PrepareSongBar()

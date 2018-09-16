@@ -3,6 +3,9 @@ using Android.Content;
 using Android.Media;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
+using Android.Widget;
+using Idunas.DanceMusicPlayer.Activities;
 using Idunas.DanceMusicPlayer.Models;
 using System;
 using System.Threading.Tasks;
@@ -10,10 +13,16 @@ using System.Timers;
 
 namespace Idunas.DanceMusicPlayer.Services.Player
 {
-    [Service]
+    [Service(Exported = false)]
     public class PlayerService : Service, IPlayerService
     {
-        private const int SERVICE_RUNNING_NOTIFICATION_ID = 999;
+        public const string MAIN_ACTION = "de.idunas.dancemusicplayer.action.main";
+        //public static String INIT_ACTION = "com.marothiatechs.foregroundservice.action.init";
+        public const string PLAY_PAUSE_ACTION = "de.idunas.dancemusicplayer.action.play";
+        public const string NEXT_ACTION = "de.idunas.dancemusicplayer.action.next";
+        public const string START_FOREGROUND_ACTION = "de.idunas.dancemusicplayer.action.startforeground";
+        //public static String STOPFOREGROUND_ACTION = "com.marothiatechs.foregroundservice.action.stopforeground";
+        private const int SERVICE_RUNNING_NOTIFICATION_ID = 1;
 
         private PlaybackParams _playbackParams;
         private MediaPlayer _player;
@@ -34,26 +43,7 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         public PlayerService()
         {
             _positionReportTimer = new Timer(1000);
-            _positionReportTimer.Elapsed += (sender, e) =>
-            {
-                if (State != PlayerState.Playing)
-                {
-                    return;
-                }
-
-                FirePositionChanged(_player.CurrentPosition);
-
-                // Check if we need to seek to a previous position
-                // due to looping
-                var currentSong = _playlist.Songs[_currentSongIndex];
-                if (currentSong.IsLooping &&
-                    currentSong.LoopMarkerEnd != null && 
-                    _player.CurrentPosition >= currentSong.LoopMarkerEnd)
-                {
-                    SeekTo(currentSong.LoopMarkerStart ?? 0);
-                    FirePositionChanged(_player.CurrentPosition);
-                }
-            };
+            _positionReportTimer.Elapsed += HandlePositionReportTimerElapsed;
         }
 
         public override IBinder OnBind(Intent intent)
@@ -65,17 +55,72 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            var notification = new Notification.Builder(this)
-                //var notification = new Notification.Builder(this, GetString(Resource.String.default_notification_channel_id))
-                //.SetContentTitle(GetString(Resource.String.app_name))
-                //.SetContentText("TODO: Currently playing ...")
-                //.SetSmallIcon(Resource.Drawable.ic_music_note)
-                //.SetOngoing(true)
+            switch (intent.Action)
+            {
+                case START_FOREGROUND_ACTION:
+                {
+                    CreateAndShowServiceNotification();
+                    break;
+                }
+                case PLAY_PAUSE_ACTION:
+                {
+                    if (State == PlayerState.Playing)
+                    {
+                        Pause();
+                    }
+                    else
+                    {
+                        Play();
+                    }
+
+                    CreateAndShowServiceNotification();
+                    break;
+                }
+                case NEXT_ACTION:
+                {
+                    PlayNextSong().ContinueWith(result => CreateAndShowServiceNotification());
+                    break;
+                }
+            }
+
+            return StartCommandResult.Sticky;
+        }
+
+        private void CreateAndShowServiceNotification()
+        {
+            // Build the intent that will show the app if the user taps our notification
+            var showAppIntent = PendingIntent.GetActivity(
+                this, 0, new Intent(this, typeof(MainActivity)).SetAction(MAIN_ACTION), 0);
+
+            // Play / Pause event handler
+            var playPauseIntent = PendingIntent.GetService(
+                this, 0, new Intent(this, typeof(PlayerService)).SetAction(PLAY_PAUSE_ACTION), 0);
+
+            // Next event handler
+            var nextIntent = PendingIntent.GetService(
+                this, 0, new Intent(this, typeof(PlayerService)).SetAction(NEXT_ACTION), 0);
+
+
+            // Build the custom view
+            var contentView = new RemoteViews(PackageName, Resource.Layout.Notification);
+            contentView.SetOnClickPendingIntent(Resource.Id.btn_play_pause, playPauseIntent);
+            contentView.SetOnClickPendingIntent(Resource.Id.btn_next, nextIntent);
+            contentView.SetImageViewResource(
+                Resource.Id.btn_play_pause,
+                State == PlayerState.Playing ? Resource.Drawable.ic_pause : Resource.Drawable.ic_play);
+            contentView.SetTextViewText(
+                Resource.Id.lbl_song,
+                CurrentSong?.Name ?? GetString(Resource.String.no_song_selected));
+
+            var notification = new NotificationCompat.Builder(this, MainActivity.NOTIFICATION_CHANNEL_ID)
+                .SetSmallIcon(Resource.Mipmap.ic_launcher)
+                .SetCustomContentView(contentView)
+                .SetStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .SetContentIntent(showAppIntent)
+                .SetOngoing(true)
                 .Build();
 
             StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
-
-            return base.OnStartCommand(intent, flags, startId);
         }
 
         public override void OnDestroy()
@@ -90,9 +135,30 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         #region --- Event handlers & private functionality
 
+        private void HandlePositionReportTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (State != PlayerState.Playing)
+            {
+                return;
+            }
+
+            FirePositionChanged(_player.CurrentPosition);
+
+            // Check if we need to seek to a previous position
+            // due to looping
+            var currentSong = CurrentSong;
+            if (currentSong.IsLooping &&
+                currentSong.LoopMarkerEnd != null &&
+                _player.CurrentPosition >= currentSong.LoopMarkerEnd)
+            {
+                SeekTo(currentSong.LoopMarkerStart ?? 0);
+                FirePositionChanged(_player.CurrentPosition);
+            }
+        }
+
         private async void HandlePlayerCompletion(object sender, EventArgs e)
         {
-            var currentSong = _playlist.Songs[_currentSongIndex];
+            var currentSong = CurrentSong;
             if (currentSong.IsLooping)
             {
                 SeekTo(currentSong.LoopMarkerStart ?? 0);
@@ -119,6 +185,7 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         {
             State = state;
             StateChanged?.Invoke(this, State);
+            CreateAndShowServiceNotification();
         }
 
         private void FirePositionChanged(int position)
@@ -178,6 +245,19 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         public bool HasNextSong => _currentSongIndex < _playlist?.Songs.Count - 1;
 
         public bool HasPreviousSong => _currentSongIndex > 0;
+
+        public Song CurrentSong
+        {
+            get
+            {
+                if (_playlist == null || _currentSongIndex >= _playlist.Songs.Count)
+                {
+                    return null;
+                }
+
+                return _playlist.Songs[_currentSongIndex];
+            }
+        }
 
         public void Pause()
         {
@@ -254,6 +334,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             await _player.SetDataSourceAsync(song.FilePath);
             await PreparePlayer();
             Play();
+
+            CreateAndShowServiceNotification();
         }
 
         public async Task PlayNextSong()
@@ -288,7 +370,5 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         }
 
         #endregion
-
-
     }
 }

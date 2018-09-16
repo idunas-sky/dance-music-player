@@ -33,6 +33,7 @@
     <string name="name">Name</string>
     <string name="new_playlist">Neue Playlist</string>
     <string name="no_song_selected">Kein Lied ausgewählt</string>
+    <string name="notification_channel_description">Benachrichtigung für die Anzeige des aktuell abgespielten Lieds und der Möglichkeit dieses abzuspielen / zu pausieren bzw. zum nächsten Lied zu wechseln</string>
     <string name="ok">OK</string>
     <string name="rationale_read_external_storage">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
     <string name="save">Speichern</string>

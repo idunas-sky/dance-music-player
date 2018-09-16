@@ -1,6 +1,6 @@
 ﻿using Android.Content;
 using Android.OS;
-using Idunas.DanceMusicPlayer.Models;
+using Android.Support.V4.Content;
 using System;
 using System.Threading.Tasks;
 
@@ -28,14 +28,9 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         public void Start()
         {
             var intent = new Intent(_context, typeof(PlayerService));
-            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
-            {
-                _context.StartForegroundService(intent);
-            }
-            else
-            {
-                _context.StartService(intent);
-            }
+            intent.SetAction(PlayerService.START_FOREGROUND_ACTION);
+
+            ContextCompat.StartForegroundService(_context, intent);
 
             _connectionCompletionSource = new TaskCompletionSource<PlayerServiceBinder>();
             _context.BindService(intent, this, Bind.None);
