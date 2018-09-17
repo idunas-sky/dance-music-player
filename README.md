@@ -10,7 +10,7 @@ Android music player app, designed to play dance music
 * Add bookmarks for specific positions in a song and easily jump to them
 
 ## Planned
-One of the next things will include an english translation as the app is currently only available in german.
+One of the next things will include an [english translation](https://github.com/idunas-sky/dance-music-player/issues/1) as the app is currently only available in german.
 
 Check the [issues](https://github.com/idunas-sky/dance-music-player/issues) of this project to see what is planned and please use the comments or emojis to support the features you would like to see next. Or even add new features! :)
 
