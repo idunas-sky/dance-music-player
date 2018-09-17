@@ -38,6 +38,9 @@
     <string name="rationale_read_external_storage">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
     <string name="save">Speichern</string>
     <string name="title_delete_playlist">Playlist löschen?</string>
+    <string name="x_song">1 Lied</string>
+    <string name="x_songs">{0} Lieder</string>
+
     <string name="license_material_design_icons">
         <![CDATA[
        Copyright (c) 2014, Austin Andrews (http://materialdesignicons.com/),

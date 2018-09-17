@@ -1,4 +1,5 @@
-﻿using Android.Support.V7.Widget;
+﻿using Android.App;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Idunas.DanceMusicPlayer.Models;
@@ -22,7 +23,9 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
         public void BindData(Playlist playlist)
         {
             _lblName.Text = playlist.Name;
-            _lblSongCount.Text = $"{playlist.Songs.Count} Lieder";
+            _lblSongCount.Text = playlist.Songs.Count == 1
+                ? Application.Context.GetString(Resource.String.x_song)
+                : string.Format(Application.Context.GetString(Resource.String.x_songs), playlist.Songs.Count);
         }
     }
 }
