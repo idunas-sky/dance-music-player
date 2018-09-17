@@ -149,15 +149,50 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             var xStartButtonCenter = buttonStartLocation.X + (ButtonStartLoopMarker.Width / 2f);
             var xStartSeekbarPosition = 0f;
 
+            if( LoopMarkerStart != null)
+            {
+                xStartSeekbarPosition =
+                    seekBarPositionLocation.X +
+                    SeekBarPosition.PaddingLeft +
+                    (LoopMarkerStart.Value * widthPerPosition);
+            }
+
             // Define end values
+            var xEndButtonCenter = buttonEndLocation.X + (ButtonEndLoopMarker.Width / 2f);
             var xEndSeekbarPosition = 0f;
+
+            if (LoopMarkerEnd != null)
+            {
+                xEndSeekbarPosition =
+                    seekBarPositionLocation.X +
+                    SeekBarPosition.PaddingLeft +
+                    (LoopMarkerEnd.Value * widthPerPosition);
+            }
+
+
+            // Calculate the horizontal level
+            var yStartHorizontalConnector = buttonStartLocation.Y - heightPerPart;
+            var yEndHorizontalConnector = buttonEndLocation.Y - heightPerPart;
+
+            // Special handling is only required if both markers are visible
+            if (LoopMarkerStart != null && LoopMarkerEnd != null)
+            {
+                // Move the end connector up if it is too far left
+                if (xEndSeekbarPosition < xStartButtonCenter + 5)
+                {
+                    yEndHorizontalConnector -= heightPerPart;
+                }
+
+                // Move the start connector up if it is too far right
+                if (xStartSeekbarPosition > xEndButtonCenter - 5)
+                {
+                    yStartHorizontalConnector -= heightPerPart;
+                }
+            }
 
             // Draw the connector for the start marker
             if (LoopMarkerStart != null)
             {
-                xStartSeekbarPosition = seekBarPositionLocation.X + SeekBarPosition.PaddingLeft + (LoopMarkerStart.Value * widthPerPosition);
-                var yStartHorizontalConnector = buttonStartLocation.Y - heightPerPart;
-
                 DrawLoopMarkerConnector(
                     canvas,
                     offset,
@@ -171,12 +206,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             // Draw the connector for the end marker
             if (LoopMarkerEnd != null)
             {
-                xEndSeekbarPosition = seekBarPositionLocation.X + SeekBarPosition.PaddingLeft + (LoopMarkerEnd.Value * widthPerPosition);
-                var xEndButtonCenter = buttonEndLocation.X + (ButtonEndLoopMarker.Width / 2f);
-                var yEndHorizontalConnector = xEndSeekbarPosition < xStartButtonCenter + 5
-                    ? buttonEndLocation.Y - (2 * heightPerPart)
-                    : buttonEndLocation.Y - heightPerPart;
-
                 DrawLoopMarkerConnector(
                     canvas,
                     offset,
