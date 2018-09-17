@@ -77,7 +77,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
             // TODO: Persist selection when changing folders
             if (_rvAdapter == null || _rvAdapter.Items == null)
             {
-                ErrorService.Instance.ShowError("Error: Adapter does not have items.");
+                MessageService.ShowLongMessage("Error: Adapter does not have items.");
                 return;
             }
 

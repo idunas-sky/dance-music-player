@@ -50,7 +50,7 @@ namespace Idunas.DanceMusicPlayer.Services
                 }
                 catch (Exception ex)
                 {
-                    ErrorService.Instance.ShowError(ex, "Failed to load playlists");
+                    MessageService.ShowError(ex, "Failed to load playlists");
                 }
             }
 
@@ -67,7 +67,7 @@ namespace Idunas.DanceMusicPlayer.Services
             }
             catch (Exception ex)
             {
-                ErrorService.Instance.ShowError(ex, "Failed to save playlists");
+                MessageService.ShowError(ex, "Failed to save playlists");
             }
         }
     }

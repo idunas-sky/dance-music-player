@@ -254,6 +254,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                 _song.LoopMarkerEnd = null;
             }
 
+            MessageService.ShowHelpText(Resource.String.help_loop_marker);
+
             PlaylistsService.Instance.Save();
             EnsureState();
         }
@@ -284,6 +286,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             {
                 _song.LoopMarkerStart = null;
             }
+
+            MessageService.ShowHelpText(Resource.String.help_loop_marker);
 
             PlaylistsService.Instance.Save();
             EnsureState();

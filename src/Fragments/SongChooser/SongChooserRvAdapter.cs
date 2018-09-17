@@ -111,7 +111,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
             }
             catch (Exception ex)
             {
-                ErrorService.Instance.ShowError(ex, "Failed to retrieve file system items");
+                MessageService.ShowError(ex, "Failed to retrieve file system items");
                 return GetFileSystemItems(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath);
             }
         }
