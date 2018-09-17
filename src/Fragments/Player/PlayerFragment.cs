@@ -374,17 +374,22 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         private void EnsureState()
         {
-            var isConnected = _controller?.Service != null;
+            var isPlayerReady = _controller?.Service != null && _playlist != null;
 
             // Disable / enable all buttons depending on connection
-            _btnSetLoopStartMarker.Enabled = isConnected;
-            _btnSetLoopEndMarker.Enabled = isConnected;
-            _btnAddBookmark.Enabled = isConnected;
-            _btnPlayPause.Enabled = isConnected;
-            _btnPrevious.Enabled = isConnected;
-            _btnNext.Enabled = isConnected;
+            _seekBarSpeed.Enabled = isPlayerReady;
+            _seekBarPosition.Enabled = isPlayerReady;
 
-            if (!isConnected)
+            _btnToggleLooping.Enabled = isPlayerReady;
+            _btnSetLoopStartMarker.Enabled = isPlayerReady;
+            _btnSetLoopEndMarker.Enabled = isPlayerReady;
+            _btnAddBookmark.Enabled = isPlayerReady;
+
+            _btnPlayPause.Enabled = isPlayerReady;
+            _btnPrevious.Enabled = isPlayerReady;
+            _btnNext.Enabled = isPlayerReady;
+
+            if (!isPlayerReady)
             {
                 _btnPlayPause.SetImageResource(Resource.Drawable.ic_play);
                 return;
