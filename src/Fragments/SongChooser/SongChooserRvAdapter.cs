@@ -18,7 +18,18 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
 
         public SongChooserRvAdapter()
         {
-            SetVisibleDirectory(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath);
+            // We try to use the 'Music' folder as a startup directory. If that doesn't work
+            // we will fall back to the root directory.
+            var rootDirectory = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+            var musicDirectory = Path.Combine(rootDirectory, "Music");
+            if (Directory.Exists(musicDirectory))
+            {
+                SetVisibleDirectory(musicDirectory);
+            }
+            else
+            {
+                SetVisibleDirectory(rootDirectory);
+            }
         }
 
         public override int ItemCount => Items.Count;
