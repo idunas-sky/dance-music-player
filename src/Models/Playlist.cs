@@ -17,6 +17,7 @@ namespace Idunas.DanceMusicPlayer.Models
         {
             Songs = new List<Song>();
             CreatedOn = DateTime.Now;
+            Speed = 100;
         }
     }
 }
