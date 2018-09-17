@@ -264,7 +264,6 @@
     <AndroidResource Include="Resources\drawable\ic_play_speed.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Licenses.txt" />
     <AndroidResource Include="Resources\drawable\ic_arrow_collapse_left.xml" />
     <AndroidResource Include="Resources\drawable\ic_arrow_collapse_right.xml" />
     <AndroidResource Include="Resources\drawable\ic_pin.xml" />
