@@ -8,6 +8,12 @@
         android:icon="@drawable/ic_plus"
         android:title="@string/new_playlist"/>
     <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"/>
+    <item
         android:id="@+id/action_about"
         android:orderInCategory="999"
         app:showAsAction="never"
