@@ -68,7 +68,7 @@ namespace Idunas.DanceMusicPlayer.Activities
             CreateNotificationChannel();
 
             // TODO
-            //MainLayout = FindViewById<View>(Resource.Id.layout_main);
+            MainLayout = FindViewById<View>(Resource.Id.layout_main);
 
             // Show initial main fragment
             ShowFragment(typeof(PlaylistsFragment), NavDirection.Forward, null);
