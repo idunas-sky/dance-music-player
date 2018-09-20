@@ -10,7 +10,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.About
 
         public override void OnBackNavigationPressed()
         {
-            NavigateTo<PlaylistsFragment>(NavDirection.Backward);
+            NavManager.Instance.NavigateTo<PlaylistsFragment>(NavDirection.Backward);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

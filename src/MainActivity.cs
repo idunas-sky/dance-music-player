@@ -27,7 +27,7 @@ namespace Idunas.DanceMusicPlayer.Activities
         private View ViewBottomShadow { get; set; }
 
         private BottomSheetBehavior _bottomSheetBehavior;
-        private Dictionary<Type, NavFragment> _fragments = new Dictionary<Type, NavFragment>();
+        private Dictionary<Type, INavFragment> _fragments = new Dictionary<Type, INavFragment>();
 
         #endregion
 
@@ -58,6 +58,8 @@ namespace Idunas.DanceMusicPlayer.Activities
 
             SetContentView(Resource.Layout.Main);
             SupportFragmentManager.RegisterFragmentLifecycleCallbacks(new FragmentLifecycleManager(this), false);
+
+            NavManager.Instance.NavigationRequested += HandleNavigationRequested;
 
             // Top actionbar / toolbar
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -198,8 +200,7 @@ namespace Idunas.DanceMusicPlayer.Activities
             if (!_fragments.TryGetValue(fragmentType, out var fragment))
             {
                 // Prepare new fragment
-                fragment = (NavFragment)Activator.CreateInstance(fragmentType);
-                fragment.NavigationRequested += HandleNavigationRequested;
+                fragment = (INavFragment)Activator.CreateInstance(fragmentType);
                 _fragments.Add(fragmentType, fragment);
             }
 
@@ -217,7 +218,7 @@ namespace Idunas.DanceMusicPlayer.Activities
             SupportFragmentManager
                 .BeginTransaction()
                 .SetCustomAnimations(enterAnimation, exitAnimation)
-                .Replace(Resource.Id.fragment_container, fragment)
+                .Replace(Resource.Id.fragment_container, (Android.Support.V4.App.Fragment)fragment)
                 .Commit();
         }
 
@@ -248,7 +249,7 @@ namespace Idunas.DanceMusicPlayer.Activities
         {
             InvalidateOptionsMenu();
 
-            if (MainFragment is IAppBarFragment fragment)
+            if (MainFragment is INavFragment fragment)
             {
                 SupportActionBar.SetDisplayHomeAsUpEnabled(fragment.ShowBackNavigation);
                 SupportActionBar.SetHomeAsUpIndicator(fragment.BackNavigationIcon);
@@ -274,7 +275,7 @@ namespace Idunas.DanceMusicPlayer.Activities
 
         private bool OnBackNavigationRequested()
         {
-            if (!(MainFragment is IAppBarFragment fragment))
+            if (!(MainFragment is INavFragment fragment))
             {
                 return false;
             }

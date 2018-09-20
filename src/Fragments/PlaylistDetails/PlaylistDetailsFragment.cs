@@ -24,7 +24,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
 
         public override void OnBackNavigationPressed()
         {
-            NavigateTo<PlaylistsFragment>(NavDirection.Backward);
+            NavManager.Instance.NavigateTo<PlaylistsFragment>(NavDirection.Backward);
         }
 
         public Playlist Playlist { get; set; }
@@ -63,12 +63,12 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
             {
                 case Resource.Id.action_add_songs:
                 {
-                    NavigateTo<SongChooserFragment>(f => f.Playlist = Playlist);
+                    NavManager.Instance.NavigateTo<SongChooserFragment>(f => f.Playlist = Playlist);
                     break;
                 }
                 case Resource.Id.action_edit:
                 {
-                    NavigateTo<PlaylistEditorFragment>(initalizer: f =>
+                    NavManager.Instance.NavigateTo<PlaylistEditorFragment>(initalizer: f =>
                     {
                         f.Playlist = Playlist;
                         f.IsNew = false;
@@ -96,7 +96,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
                 {
                     PlaylistsService.Instance.Playlists.Remove(Playlist);
                     PlaylistsService.Instance.Save();
-                    NavigateTo<PlaylistsFragment>(NavDirection.Backward);
+                    NavManager.Instance.NavigateTo<PlaylistsFragment>(NavDirection.Backward);
                 })
                 .SetNegativeButton(Resource.String.cancel, (sender, e) => { })
                 .Create()

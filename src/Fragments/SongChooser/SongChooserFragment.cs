@@ -32,7 +32,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
 
         public override void OnBackNavigationPressed()
         {
-            NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
+            NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -95,7 +95,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
             }
 
             PlaylistsService.Instance.Save();
-            NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
+            NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
         }
 
         private void RequestPermissions()
@@ -137,7 +137,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
                 }
 
                 // Permission has not been granted, go back to details
-                NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
+                NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
                 return;
             }
 

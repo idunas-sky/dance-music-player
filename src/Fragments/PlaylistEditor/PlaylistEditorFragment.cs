@@ -24,11 +24,11 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistEditor
         {
             if (IsNew)
             {
-                NavigateTo<PlaylistsFragment>(NavDirection.Backward);
+                NavManager.Instance.NavigateTo<PlaylistsFragment>(NavDirection.Backward);
             }
             else
             {
-                NavigateTo<PlaylistDetailsFragment>(
+                NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(
                     NavDirection.Backward,
                     fragment => fragment.Playlist = Playlist);
             }
@@ -68,11 +68,11 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistEditor
 
                 if (IsNew)
                 {
-                    NavigateTo<PlaylistsFragment>(NavDirection.Backward);
+                    NavManager.Instance.NavigateTo<PlaylistsFragment>(NavDirection.Backward);
                 }
                 else
                 {
-                    NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
+                    NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
                 }
             }
 

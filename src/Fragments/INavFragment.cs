@@ -1,6 +1,8 @@
-﻿namespace Idunas.DanceMusicPlayer.Fragments
+﻿using Android.Support.V4.App;
+
+namespace Idunas.DanceMusicPlayer.Fragments
 {
-    public interface IAppBarFragment
+    public interface INavFragment
     {
         string Title { get; }
 
