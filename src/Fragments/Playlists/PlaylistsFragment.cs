@@ -21,7 +21,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
             _rvPlaylists.SetLayoutManager(new LinearLayoutManager(Context));
 
             var adapter = new PlaylistsRvAdapter();
-            adapter.ItemClick += (sender, e) => NavigateTo<PlaylistDetailsFragment>(f => f.Playlist = e);
+            adapter.ItemClick += (sender, e) => NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(f => f.Playlist = e);
             _rvPlaylists.SetAdapter(adapter);
 
             return view;
@@ -39,7 +39,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
             {
                 case Resource.Id.action_new:
                 {
-                    NavigateTo<PlaylistEditorFragment>(initalizer: f =>
+                    NavManager.Instance.NavigateTo<PlaylistEditorFragment>(initalizer: f =>
                     {
                         f.Playlist = new Playlist();
                         f.IsNew = true;
@@ -48,7 +48,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
                 }
                 case Resource.Id.action_about:
                 {
-                    NavigateTo<AboutFragment>(NavDirection.Forward);
+                    NavManager.Instance.NavigateTo<AboutFragment>(NavDirection.Forward);
                     break;
                 }
             }

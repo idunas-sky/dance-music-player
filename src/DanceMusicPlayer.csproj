@@ -67,10 +67,11 @@
   <ItemGroup>
     <Compile Include="FragmentLifecycleManager.cs" />
     <Compile Include="Fragments\About\AboutFragment.cs" />
-    <Compile Include="Fragments\IAppBarFragment.cs" />
+    <Compile Include="Fragments\INavFragment.cs" />
     <Compile Include="Fragments\NavDirection.cs" />
     <Compile Include="Fragments\NavFragment.cs" />
     <Compile Include="Fragments\NavigationEventArgs.cs" />
+    <Compile Include="Fragments\NavManager.cs" />
     <Compile Include="Fragments\Player\BookmarkItemViewHolder.cs" />
     <Compile Include="Fragments\Player\BookmarksRvAdapter.cs" />
     <Compile Include="Fragments\Player\LoopPositionIndicatorView.cs" />
