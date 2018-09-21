@@ -81,13 +81,13 @@ namespace Idunas.DanceMusicPlayer.Util
             return await tcs.Task;
         }
 
-        private static void ShowKeyboard(Context context, EditText txtInput)
+        public static void ShowKeyboard(Context context, EditText txtInput)
         {
             var inputManager = (InputMethodManager)context.GetSystemService(Context.InputMethodService);
             inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
         }
 
-        private static void HideKeyboard(Context context, EditText txtInput)
+        public static void HideKeyboard(Context context, EditText txtInput)
         {
             var inputManager = (InputMethodManager)context.GetSystemService(Context.InputMethodService);
             inputManager.HideSoftInputFromWindow(txtInput.WindowToken, 0);

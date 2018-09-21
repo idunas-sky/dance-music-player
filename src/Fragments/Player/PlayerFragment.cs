@@ -1,6 +1,8 @@
-﻿using Android.Graphics;
+﻿using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.Widget;
+using Android.Text;
 using Android.Views;
 using Android.Widget;
 using Idunas.DanceMusicPlayer.Activities;
@@ -68,6 +70,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _seekBarSpeed = view.FindViewById<SeekBar>(Resource.Id.seekBar_speed);
             _seekBarSpeed.ProgressChanged += HandleSpeedChanged;
             _lblSpeed = view.FindViewById<TextView>(Resource.Id.lbl_speed);
+            _lblSpeed.Click += HandleLabelSpeedClick;
+            _lblSpeed.LongClick += HandleLabelSpeedLongClick;
 
             // Position
             _lblCurrentPosition = view.FindViewById<TextView>(Resource.Id.lbl_current_position);
@@ -171,17 +175,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         #endregion
 
-        public void PlaySong(Song song, Playlist playlist)
-        {
-            _playlist = playlist;
-            _song = song;
-
-            PlaybackSpeed = _playlist.Speed;
-            EnsureState();
-
-            _controller.Service.Load(_song, _playlist);
-        }
-
         #region --- Back-navigation
 
         public override int BackNavigationIcon => Resource.Drawable.ic_chevron_down;
@@ -243,6 +236,57 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
             _lblSpeed.Text = $"{PlaybackSpeed}%";
             _controller?.Service?.ChangeSpeed(PlaybackSpeed / 100f);
+        }
+
+        private void HandleLabelSpeedLongClick(object sender, View.LongClickEventArgs e)
+        {
+            if (_song == null)
+            {
+                return;
+            }
+
+            SetSpeed(100);
+        }
+
+        private void HandleLabelSpeedClick(object sender, EventArgs e)
+        {
+            if (_song == null)
+            {
+                return;
+            }
+
+            // Prepare editor
+            var layout = new LinearLayout(Context);
+            var txtInput = new EditText(Context);
+            txtInput.FocusChange += (_, __) => AlertDialogUtils.ShowKeyboard(Context, txtInput);
+            txtInput.Text = PlaybackSpeed.ToString();
+            txtInput.InputType = InputTypes.ClassNumber | InputTypes.NumberFlagSigned;
+            txtInput.SetSelectAllOnFocus(true);
+
+            var layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent);
+            layoutParams.SetMargins(
+                (int)Context.Resources.GetDimension(Resource.Dimension.spacing_large),
+                0,
+                (int)Context.Resources.GetDimension(Resource.Dimension.spacing_large),
+                0);
+            txtInput.LayoutParameters = layoutParams;
+            layout.AddView(txtInput);
+
+            var dialogBuilder = new AlertDialog.Builder(Context)
+                .SetTitle(Resource.String.change_speed)
+                .SetView(layout)
+                .SetPositiveButton(Resource.String.ok, (_, __) =>
+                {
+                    AlertDialogUtils.HideKeyboard(Context, txtInput);
+                    if (int.TryParse(txtInput.Text, out var result))
+                    {
+                        SetSpeed(result);
+                    }
+                });
+
+            dialogBuilder.Show();
         }
 
         private void HandlePositionChanged(object sender, SeekBar.ProgressChangedEventArgs e)
@@ -385,6 +429,17 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         #endregion
 
+        public void PlaySong(Song song, Playlist playlist)
+        {
+            _playlist = playlist;
+            _song = song;
+
+            PlaybackSpeed = _playlist.Speed;
+            EnsureState();
+
+            _controller.Service.Load(_song, _playlist);
+        }
+
         private void SeekTo(int position)
         {
             _seekBarPosition.Progress = position;
@@ -402,6 +457,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         {
             _seekBarPosition.SetProgress(position, true);
             _lblCurrentPosition.Text = TimeSpan.FromMilliseconds(position).ToString(@"mm\:ss");
+        }
+
+        private void SetSpeed(int speed)
+        {
+            PlaybackSpeed = speed;
+            _playlist.Speed = speed;
+            PlaylistsService.Instance.Save();
         }
 
         private void EnsureState()
