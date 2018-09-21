@@ -136,7 +136,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             var buttonEndLocation = GetLocation(ButtonEndLoopMarker);
 
             // We need to know the Y value where our seekbar ends
-            var ySeekbarBottom = seekBarPositionLocation.Y + SeekBarPosition.Height;
+            var ySeekbarBottom = seekBarPositionLocation.Y + SeekBarPosition.Height - SeekBarPosition.PaddingBottom;
 
             // Get the space between our seekbar and our buttons and split it into 3 equal parts
             var availableHeight = buttonStartLocation.Y - ySeekbarBottom;
