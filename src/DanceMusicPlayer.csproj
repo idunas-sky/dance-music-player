@@ -83,6 +83,7 @@
     <Compile Include="Fragments\Playlists\PlaylistsFragment.cs" />
     <Compile Include="Fragments\Playlists\PlaylistsRvAdapter.cs" />
     <Compile Include="Fragments\Playlists\PlaylistItemViewHolder.cs" />
+    <Compile Include="Fragments\Settings\SettingsFragment.cs" />
     <Compile Include="Fragments\SongBar\SongBarFragment.cs" />
     <Compile Include="Fragments\SongChooser\FileSystemItem.cs" />
     <Compile Include="Fragments\SongChooser\SongChooserFragment.cs" />
@@ -102,7 +103,10 @@
     <Compile Include="Services\Player\PlayerState.cs" />
     <Compile Include="Services\Player\SongInfo.cs" />
     <Compile Include="Services\PlaylistsService.cs" />
+    <Compile Include="Services\Settings\AppSettings.cs" />
+    <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Util\AlertDialogUtils.cs" />
+    <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\DipConvert.cs" />
     <Compile Include="Util\Location.cs" />
     <Compile Include="Util\UserLockedBottomSheetBehavior.cs" />
@@ -131,7 +135,13 @@
       <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2.1" />
+    <PackageReference Include="Xamarin.Android.Support.v14.Preference">
+      <Version>27.0.2.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.CardView">
+      <Version>27.0.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v7.Preference">
       <Version>27.0.2.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView">
@@ -348,6 +358,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_settings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\array.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\settings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

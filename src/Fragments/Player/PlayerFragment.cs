@@ -7,6 +7,7 @@ using Idunas.DanceMusicPlayer.Activities;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services;
 using Idunas.DanceMusicPlayer.Services.Player;
+using Idunas.DanceMusicPlayer.Services.Settings;
 using Idunas.DanceMusicPlayer.Util;
 using System;
 
@@ -14,9 +15,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 {
     public class PlayerFragment : NavFragment
     {
+        private SettingsService _settingsService;
         private PlayerServiceController _controller;
         private Playlist _playlist;
         private Song _song;
+
+        private int _speedMin = 0;
+        private int _speedMax = 0;
 
         private TextView _lblSpeed;
         private SeekBar _seekBarSpeed;
@@ -41,14 +46,17 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         protected int PlaybackSpeed
         {
-            get { return _seekBarSpeed.Progress + 20; }
-            set { _seekBarSpeed.SetProgress(value - 20, true); }
+            get { return _seekBarSpeed.Progress + _speedMin; }
+            set { _seekBarSpeed.SetProgress(value - _speedMin, true); }
         }
 
         #region --- Constructor / Initializing
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            _settingsService = new SettingsService(Context);
+            _settingsService.SettingsChanged += HandleSettingsChanged;
+
             var view = inflater.Inflate(Resource.Layout.Player, container, false);
 
             using (var styleAttributes = Activity.Theme.ObtainStyledAttributes(new[] { Android.Resource.Attribute.ColorAccent }))
@@ -101,9 +109,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _btnNext = view.FindViewById<ImageButton>(Resource.Id.btn_next);
             _btnNext.Click += HandleNextClick;
 
-            // Defaults
-            PlaybackSpeed = 100;
-
             EnsureState();
             return view;
         }
@@ -112,9 +117,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         {
             base.OnStart();
 
-            // Start will be called every time the fragment becomes active.
-            // We need to handle things differently, depending on the current
-            // state of our player
+            EnsureMinMaxSpeed(_settingsService.Settings);
 
             if (_controller == null)
             {
@@ -123,6 +126,16 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                 _controller = new PlayerServiceController(Context);
                 _controller.Connected += HandleControllerConnected;
                 _controller.Start();
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (_settingsService != null)
+            {
+                _settingsService.SettingsChanged -= HandleSettingsChanged;
+                _settingsService.Dispose();
             }
         }
 
@@ -141,6 +154,23 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _controller.Service.SongChanged += HandlePlayerServiceSongChanged;
         }
 
+        private void HandleSettingsChanged(object sender, AppSettings e)
+        {
+            EnsureMinMaxSpeed(e);
+        }
+
+        private void EnsureMinMaxSpeed(AppSettings settings)
+        {
+            if (settings.SpeedMin != _speedMin || settings.SpeedMax != _speedMax)
+            {
+                _speedMin = settings.SpeedMin;
+                _speedMax = settings.SpeedMax;
+                _seekBarSpeed.Max = _speedMax - _speedMin;
+            }
+        }
+
+        #endregion
+
         public void PlaySong(Song song, Playlist playlist)
         {
             _playlist = playlist;
@@ -151,8 +181,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
             _controller.Service.Load(_song, _playlist);
         }
-
-        #endregion
 
         #region --- Back-navigation
 

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/player">
+        <ListPreference
+            android:title="@string/settings_speed_min"
+            android:key="speed_min"
+            android:entries="@array/min_speed_labels"
+            android:entryValues="@array/min_speed_values">
+        </ListPreference>
+        <ListPreference
+            android:title="@string/settings_speed_max"
+            android:key="speed_max"
+            android:entries="@array/max_speed_labels"
+            android:entryValues="@array/max_speed_values">
+        </ListPreference>
+    </android.support.v7.preference.PreferenceCategory>
+</PreferenceScreen>

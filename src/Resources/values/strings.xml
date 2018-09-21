@@ -27,6 +27,7 @@
     <string name="add_bookmark">Bookmark hinzufügen</string>
     <string name="add_songs">Lieder hinzufügen</string>
     <string name="cancel">Abbrechen</string>
+    <string name="default_value">(Standard)</string>
     <string name="delete">Löschen</string>
     <string name="edit">Bearbeiten</string>
     <string name="help_loop_marker">Loop-Marker gesetzt! Lange drücken, um den Marker wieder zu löschen.</string>
@@ -36,9 +37,12 @@
     <string name="no_song_selected">Kein Lied ausgewählt</string>
     <string name="notification_channel_description">Benachrichtigung für die Anzeige des aktuell abgespielten Lieds und der Möglichkeit dieses abzuspielen / zu pausieren bzw. zum nächsten Lied zu wechseln</string>
     <string name="ok">OK</string>
+    <string name="player">Player</string>
     <string name="rationale_read_external_storage">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
     <string name="save">Speichern</string>
     <string name="settings">Einstellungen</string>
+    <string name="settings_speed_max">Max. Abspielgeschwindigkeit</string>
+    <string name="settings_speed_min">Min. Abspielgeschwindigkeit</string>
     <string name="title_delete_playlist">Playlist löschen?</string>
     <string name="x_song">1 Lied</string>
     <string name="x_songs">{0} Lieder</string>

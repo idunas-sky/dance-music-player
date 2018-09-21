@@ -4,6 +4,7 @@ using Android.Views;
 using Idunas.DanceMusicPlayer.Fragments.About;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistDetails;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistEditor;
+using Idunas.DanceMusicPlayer.Fragments.Settings;
 using Idunas.DanceMusicPlayer.Models;
 
 namespace Idunas.DanceMusicPlayer.Fragments.Playlists
@@ -44,6 +45,11 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
                         f.Playlist = new Playlist();
                         f.IsNew = true;
                     });
+                    break;
+                }
+                case Resource.Id.action_settings:
+                {
+                    NavManager.Instance.NavigateTo<SettingsFragment>(NavDirection.Forward);
                     break;
                 }
                 case Resource.Id.action_about:
