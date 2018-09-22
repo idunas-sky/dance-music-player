@@ -6,6 +6,7 @@ using Idunas.DanceMusicPlayer.Fragments.PlaylistDetails;
 using Idunas.DanceMusicPlayer.Fragments.Playlists;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services;
+using Idunas.DanceMusicPlayer.Util;
 
 namespace Idunas.DanceMusicPlayer.Fragments.PlaylistEditor
 {
@@ -45,6 +46,12 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistEditor
         {
             _inputName.Text = Playlist.Name;
             base.OnResume();
+        }
+
+        public override void OnStop()
+        {
+            KeyboardUtils.HideKeyboard(Activity);
+            base.OnStop();
         }
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)

@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Views;
-using Android.Views.InputMethods;
 using Android.Widget;
 using System.Threading.Tasks;
 
@@ -32,15 +31,15 @@ namespace Idunas.DanceMusicPlayer.Util
             // Prepare editor
             var layout = new LinearLayout(context);
             var txtInput = new EditText(Application.Context);
-            txtInput.FocusChange += (sender, e) => ShowKeyboard(context, txtInput);
+            txtInput.FocusChange += (sender, e) => KeyboardUtils.ShowKeyboard(context, txtInput);
             txtInput.Hint = context.GetString(inputLabelResourceId);
             var layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MatchParent,
                 ViewGroup.LayoutParams.WrapContent);
             layoutParams.SetMargins(
-                (int)context.Resources.GetDimension(Resource.Dimension.spacing_large), 
+                (int)context.Resources.GetDimension(Resource.Dimension.spacing_large),
                 0,
-                (int)context.Resources.GetDimension(Resource.Dimension.spacing_large), 
+                (int)context.Resources.GetDimension(Resource.Dimension.spacing_large),
                 0);
             txtInput.LayoutParameters = layoutParams;
             layout.AddView(txtInput);
@@ -52,7 +51,7 @@ namespace Idunas.DanceMusicPlayer.Util
                 .SetView(layout)
                 .SetPositiveButton(positiveButtonResourceId, (sender, e) =>
                 {
-                    HideKeyboard(context, txtInput);
+                    KeyboardUtils.HideKeyboard(context, txtInput);
 
                     tcs.TrySetResult(new AlertDialogEditTextResult
                     {
@@ -67,7 +66,7 @@ namespace Idunas.DanceMusicPlayer.Util
                     negativeButtonResourceId.Value,
                     (sender, e) =>
                     {
-                        HideKeyboard(context, txtInput);
+                        KeyboardUtils.HideKeyboard(context, txtInput);
 
                         tcs.TrySetResult(new AlertDialogEditTextResult
                         {
@@ -79,18 +78,6 @@ namespace Idunas.DanceMusicPlayer.Util
 
             dialogBuilder.Show();
             return await tcs.Task;
-        }
-
-        public static void ShowKeyboard(Context context, EditText txtInput)
-        {
-            var inputManager = (InputMethodManager)context.GetSystemService(Context.InputMethodService);
-            inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
-        }
-
-        public static void HideKeyboard(Context context, EditText txtInput)
-        {
-            var inputManager = (InputMethodManager)context.GetSystemService(Context.InputMethodService);
-            inputManager.HideSoftInputFromWindow(txtInput.WindowToken, 0);
         }
     }
 }

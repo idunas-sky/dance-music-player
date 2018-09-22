@@ -108,6 +108,7 @@
     <Compile Include="Util\AlertDialogUtils.cs" />
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\DipConvert.cs" />
+    <Compile Include="Util\KeyboardUtils.cs" />
     <Compile Include="Util\Location.cs" />
     <Compile Include="Util\UserLockedBottomSheetBehavior.cs" />
   </ItemGroup>

@@ -258,7 +258,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             // Prepare editor
             var layout = new LinearLayout(Context);
             var txtInput = new EditText(Context);
-            txtInput.FocusChange += (_, __) => AlertDialogUtils.ShowKeyboard(Context, txtInput);
+            txtInput.FocusChange += (_, __) => KeyboardUtils.ShowKeyboard(Context, txtInput);
             txtInput.Text = PlaybackSpeed.ToString();
             txtInput.InputType = InputTypes.ClassNumber | InputTypes.NumberFlagSigned;
             txtInput.SetSelectAllOnFocus(true);
@@ -279,7 +279,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                 .SetView(layout)
                 .SetPositiveButton(Resource.String.ok, (_, __) =>
                 {
-                    AlertDialogUtils.HideKeyboard(Context, txtInput);
+                    KeyboardUtils.HideKeyboard(Context, txtInput);
                     if (int.TryParse(txtInput.Text, out var result))
                     {
                         SetSpeed(result);
@@ -386,7 +386,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
             var position = _seekBarPosition.Progress;
             var dialogResult = await AlertDialogUtils.ShowEditTextDialog(
-                Context,
+                Activity,
                 Resource.String.add_bookmark,
                 Resource.String.name,
                 Resource.String.ok,
