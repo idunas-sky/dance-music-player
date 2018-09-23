@@ -219,7 +219,7 @@ namespace Idunas.DanceMusicPlayer.Activities
                 .BeginTransaction()
                 .SetCustomAnimations(enterAnimation, exitAnimation)
                 .Replace(Resource.Id.fragment_container, (Android.Support.V4.App.Fragment)fragment)
-                .Commit();
+                .CommitAllowingStateLoss();
         }
 
         private void HandleNavigationRequested(object sender, NavigationEventArgs e)
