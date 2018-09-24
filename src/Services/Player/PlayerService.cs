@@ -17,11 +17,9 @@ namespace Idunas.DanceMusicPlayer.Services.Player
     public class PlayerService : Service, IPlayerService
     {
         public const string MAIN_ACTION = "de.idunas.dancemusicplayer.action.main";
-        //public static String INIT_ACTION = "com.marothiatechs.foregroundservice.action.init";
         public const string PLAY_PAUSE_ACTION = "de.idunas.dancemusicplayer.action.play";
         public const string NEXT_ACTION = "de.idunas.dancemusicplayer.action.next";
         public const string START_FOREGROUND_ACTION = "de.idunas.dancemusicplayer.action.startforeground";
-        //public static String STOPFOREGROUND_ACTION = "com.marothiatechs.foregroundservice.action.stopforeground";
         private const int SERVICE_RUNNING_NOTIFICATION_ID = 1;
 
         private PlaybackParams _playbackParams;
@@ -67,14 +65,14 @@ namespace Idunas.DanceMusicPlayer.Services.Player
                     if (State == PlayerState.Playing)
                     {
                         Pause();
+                        CreateAndShowServiceNotification();
+                        break;
                     }
                     else
                     {
-                        Play();
+                        Play().ContinueWith(result => CreateAndShowServiceNotification());
+                        break;
                     }
-
-                    CreateAndShowServiceNotification();
-                    break;
                 }
                 case NEXT_ACTION:
                 {
@@ -173,6 +171,7 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             }
 
             _positionReportTimer.Stop();
+            FirePositionChanged(_player.Duration);
             SetPlayerState(PlayerState.Stopped);
         }
 
@@ -227,7 +226,6 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         #endregion
 
-
         #region --- IPlayerService implementation
 
         public PlayerState State
@@ -269,28 +267,42 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             }
         }
 
-        public void Play()
+        public async Task Play()
         {
-            if (State != PlayerState.Paused &&
-                State != PlayerState.Ready)
-            {
-                return;
-            }
-
             if (_player.Duration <= 0)
             {
                 return;
             }
 
-            _positionReportTimer.Start();
-
-            // Apply playback-paramters if they did change in the meantime
-            if (_playbackParams != null && _player.PlaybackParams != _playbackParams)
+            switch (State)
             {
-                _player.PlaybackParams = _playbackParams;
+                case PlayerState.Unknown:
+                case PlayerState.Loading:
+                case PlayerState.Playing:
+                {
+                    return;
+                }
+                case PlayerState.Paused:
+                case PlayerState.Ready:
+                {
+                    _positionReportTimer.Start();
+
+                    // Apply playback-paramters if they did change in the meantime
+                    if (_playbackParams != null && _player.PlaybackParams != _playbackParams)
+                    {
+                        _player.PlaybackParams = _playbackParams;
+                    }
+                    _player.Start();
+                    SetPlayerState(PlayerState.Playing);
+                    return;
+                }
+                case PlayerState.Stopped:
+                {
+                    // Play from the beginning of the playlist
+                    await Load(_playlist.Songs[0], _playlist);
+                    return;
+                }
             }
-            _player.Start();
-            SetPlayerState(PlayerState.Playing);
         }
 
         public void ChangeSpeed(float speed)
@@ -333,7 +345,7 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             // Prepare and play the next song
             await _player.SetDataSourceAsync(song.FilePath);
             await PreparePlayer();
-            Play();
+            await Play();
 
             CreateAndShowServiceNotification();
         }
@@ -360,6 +372,11 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         public void SeekTo(int position)
         {
+            if (State == PlayerState.Stopped)
+            {
+                State = PlayerState.Paused;
+            }
+
             if (State != PlayerState.Playing &&
                 State != PlayerState.Paused)
             {

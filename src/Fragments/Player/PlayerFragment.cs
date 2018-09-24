@@ -405,7 +405,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             }
         }
 
-        private void HandlePlayPauseClick(object sender, EventArgs e)
+        private async void HandlePlayPauseClick(object sender, EventArgs e)
         {
             if (_controller.Service.State == PlayerState.Playing)
             {
@@ -413,7 +413,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             }
             else
             {
-                _controller.Service.Play();
+                await _controller.Service.Play();
             }
         }
 

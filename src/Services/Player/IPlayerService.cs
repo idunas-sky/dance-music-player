@@ -27,7 +27,7 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         Task Load(Song song, Playlist playlist);
 
-        void Play();
+        Task Play();
 
         void Pause();
 
