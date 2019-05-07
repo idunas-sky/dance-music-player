@@ -4,6 +4,8 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
@@ -65,6 +67,8 @@ namespace Idunas.DanceMusicPlayer.Activities
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
+            InitializePermissions();
+
             // Create the notification channel we will use to display
             // the player notification
             CreateNotificationChannel();
@@ -77,6 +81,25 @@ namespace Idunas.DanceMusicPlayer.Activities
 
             // Bottom sheet (Songbar)
             PrepareSongBar();
+        }
+
+        private void InitializePermissions()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.P)
+            {
+                return;
+            }
+
+            // Starting with Android Pie (v9) we need to request permissions to start
+            // a foreground service. They will be granted automatically by Android itself
+            if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.ForegroundService) != Permission.Granted)
+            {
+                // Request permissions
+                ActivityCompat.RequestPermissions(
+                    this,
+                    new[] { Android.Manifest.Permission.ForegroundService },
+                    Constants.REQUEST_CODE_START_FOREGROUND_SERVICE_PERMISSION);
+            }
         }
 
         private void CreateNotificationChannel()

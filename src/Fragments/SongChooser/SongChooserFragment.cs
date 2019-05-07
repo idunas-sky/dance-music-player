@@ -19,8 +19,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
 {
     public class SongChooserFragment : NavFragment
     {
-        private const int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 1;
-
         private SongChooserRvAdapter _rvAdapter;
         private RecyclerView _rvItems;
 
@@ -112,7 +110,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
                         ActivityCompat.RequestPermissions(
                            Activity,
                            new[] { Android.Manifest.Permission.ReadExternalStorage },
-                           REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+                           Constants.REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
                     }))
                     .Show();
             }
@@ -122,13 +120,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
                 ActivityCompat.RequestPermissions(
                     Activity,
                     new[] { Android.Manifest.Permission.ReadExternalStorage },
-                    REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+                    Constants.REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
             }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            if (requestCode == REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION)
+            if (requestCode == Constants.REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION)
             {
                 if (grantResults.Length == 1 && grantResults[0] == Permission.Granted)
                 {
