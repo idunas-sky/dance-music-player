@@ -65,7 +65,6 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
     <Compile Include="FragmentLifecycleManager.cs" />
     <Compile Include="Fragments\About\AboutFragment.cs" />
     <Compile Include="Fragments\INavFragment.cs" />

@@ -14,6 +14,7 @@ using Idunas.DanceMusicPlayer.Fragments.Player;
 using Idunas.DanceMusicPlayer.Fragments.Playlists;
 using Idunas.DanceMusicPlayer.Fragments.SongBar;
 using Idunas.DanceMusicPlayer.Models;
+using Idunas.DanceMusicPlayer.Util;
 using System;
 using System.Collections.Generic;
 
@@ -98,7 +99,7 @@ namespace Idunas.DanceMusicPlayer.Activities
                 ActivityCompat.RequestPermissions(
                     this,
                     new[] { Android.Manifest.Permission.ForegroundService },
-                    Constants.REQUEST_CODE_START_FOREGROUND_SERVICE_PERMISSION);
+                    Constants.PermissionRequests.StartForegroundService);
             }
         }
 

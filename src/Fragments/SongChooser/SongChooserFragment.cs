@@ -12,6 +12,7 @@ using Idunas.DanceMusicPlayer.Activities;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistDetails;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services;
+using Idunas.DanceMusicPlayer.Util;
 using System;
 using System.Linq;
 
@@ -110,7 +111,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
                         ActivityCompat.RequestPermissions(
                            Activity,
                            new[] { Android.Manifest.Permission.ReadExternalStorage },
-                           Constants.REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+                           Constants.PermissionRequests.ReadExternalStorage);
                     }))
                     .Show();
             }
@@ -120,13 +121,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
                 ActivityCompat.RequestPermissions(
                     Activity,
                     new[] { Android.Manifest.Permission.ReadExternalStorage },
-                    Constants.REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+                    Constants.PermissionRequests.ReadExternalStorage);
             }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            if (requestCode == Constants.REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION)
+            if (requestCode == Constants.PermissionRequests.ReadExternalStorage)
             {
                 if (grantResults.Length == 1 && grantResults[0] == Permission.Granted)
                 {
