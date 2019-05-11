@@ -5,63 +5,62 @@
     <string name="key_import_playlist">IMPORT_PLAYLIST</string>
     <string name="key_export_playlist">EXPORT_PLAYLIST</string>
 
-    <string name="about">Über die App</string>
+    <string name="about">About the app</string>
     <string name="about_me">
         <![CDATA[
         Hey!\n
-        \nAls jemand der leidenschaftlich gerne tanzt weiß ich, dass es nicht leicht
-        ist eine App zu finden, die genau die Features mitbringt, die man zum Training benötigt.
-        \nAus diesem Grund ist diese App in meiner Freizeit entstanden. Die App ist 
-        Open-Source, wer Interesse hat darf gerne mit-entwickeln.
+        \nI\'m passionate about dancing and I struggled to find an app having the features I need for
+        my training.
+        \nTherefore I created this app in my spare time. It is open-source, so if you are a developer 
+        or you are interested supporting the development, please reach out to me!
         \n
-        \nVielen Dank an Nadja, die mich zum Tansport überredet hat, obwohl ich nicht wollte ;) Und
-        vielen Dank an alle Tänzer und Trainer der TSG Backnang, ohne die ich nicht dabei geblieben wäre
-        und mit denen das Tanzen so viel Spaß macht!
+        \nMany thanks to Nadja, who convinced me to start dancing as a sport even though I didn\'t want to ;)
+        And many thanks to all the great dancers and trainers at TSG Backnang, with whom dancing is so much fun.
+        I wouldn\'t have stayed without you!
         \n
-        \nIch freue ich mich über Bewertungen, Feedback, Fragen, Wünsche 
-        und Anregungen. Wer mich kennt natürlich gerne persönlich, ansonsten bitte hier:
-        https://github.com/idunas-sky/dance-music-player/issues
+        \nI appreciate any rating, feedback, questions, wishes and suggestions. Please reach out to me personally
+        or use https://github.com/idunas-sky/dance-music-player/issues
         \n
         \nFlo
         ]]>
     </string>
-    <string name="about_licenses">Opensource-Lizenzen</string>
+    <string name="about_licenses">Opensource-Licenses</string>
     <string name="action_settings">Settings</string>
-    <string name="add_bookmark">Bookmark hinzufügen</string>
-    <string name="add_songs">Lieder hinzufügen</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="change_speed">Geschwindigkeit ändern</string>
-    <string name="default_value">(Standard)</string>
-    <string name="delete">Löschen</string>
-    <string name="edit">Bearbeiten</string>
-    <string name="error">Fehler</string>
-    <string name="error_invalid_filename">{0} ist kein gültiger Dateiname</string>
-    <string name="error_no_import_files">Im Import-Verzeichnis \'{0}\' wurden keine Dateien gefunden</string>
-    <string name="export_playlist">Playlisten exportieren</string>
-    <string name="help_loop_marker">Loop-Marker gesetzt! Lange drücken, um den Marker wieder zu löschen.</string>
+    <string name="add_bookmark">Add bookmark</string>
+    <string name="add_songs">Add song</string>
+    <string name="cancel">Cancel</string>
+    <string name="change_speed">Change speed</string>
+    <string name="default_value">(Default)</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="error">Error</string>
+    <string name="error_invalid_filename">{0} is no valid filename</string>
+    <string name="error_no_import_files">No files found in import directory \'{0}\'</string>
+    <string name="export_playlist">Export playlists</string>
+    <string name="help_loop_marker">Loop-Marker set! To remove, long press the button</string>
     <string name="import_export">Import / Export</string>
-    <string name="import_playlist">Playlisten importieren</string>
-    <string name="message_no_playlists_for_export">Du hast noch keine Playlisten erstellt, die wir exportieren können</string>
-    <string name="message_delete_playlist">Soll die Playlist \'{0}\' unwiderruflich gelöscht werden?</string>
+    <string name="import_playlist">Import playlists</string>
+    <string name="message_no_playlists_for_export">Create some playlists first to export them</string>
+    <string name="message_delete_playlist">Really delete playlist \'{0}\'? This can\'t be undone!</string>
     <string name="name">Name</string>
-    <string name="new_playlist">Neue Playlist</string>
-    <string name="no_song_selected">Kein Lied ausgewählt</string>
-    <string name="notification_channel_description">Benachrichtigung für die Anzeige des aktuell abgespielten Lieds und der Möglichkeit dieses abzuspielen / zu pausieren bzw. zum nächsten Lied zu wechseln</string>
+    <string name="new_playlist">New playlist</string>
+    <string name="no_song_selected">No song selected</string>
+    <string name="notification_channel_description">Notifications to display current song and pause / resume / play next song.</string>
     <string name="ok">OK</string>
-    <string name="permission_required">Berechtigung</string>
+    <string name="permission_required">Permission</string>
     <string name="player">Player</string>
-    <string name="rationale_add_songs">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
-    <string name="rationale_playlist_export">Wir benötigen Zugriff auf dein \'Download\'-Verzeichnis, damit wir die Playlisten exportieren können.</string>
-    <string name="rationale_play_songs">Wir benötigen Zugriff auf deine Dateien, damit du Lieder abspielen kannst.</string>
-    <string name="save">Speichern</string>
-    <string name="settings">Einstellungen</string>
-    <string name="settings_speed_max">Max. Abspielgeschwindigkeit</string>
-    <string name="settings_speed_min">Min. Abspielgeschwindigkeit</string>
-    <string name="speed">Geschwindigkeit</string>
-    <string name="success">Erfolg</string>
-    <string name="title_delete_playlist">Playlist löschen?</string>
-    <string name="x_song">1 Lied</string>
-    <string name="x_songs">{0} Lieder</string>
+    <string name="rationale_add_songs">We need to access your files to allow you to choose songs for your playlist.</string>
+    <string name="rationale_playlist_export">We need to access your \'Download\'-Directory to export playlists.</string>
+    <string name="rationale_play_songs">We need to access your files to allow you to play songs.</string>
+    <string name="save">Save</string>
+    <string name="settings">Settings</string>
+    <string name="settings_speed_max">Max. playback speed</string>
+    <string name="settings_speed_min">Min. playback speed</string>
+    <string name="speed">Speed</string>
+    <string name="success">Success</string>
+    <string name="title_delete_playlist">Delete playlist?</string>
+    <string name="x_song">1 song</string>
+    <string name="x_songs">{0} songs</string>
 
     <string name="license_material_design_icons">
         <![CDATA[
