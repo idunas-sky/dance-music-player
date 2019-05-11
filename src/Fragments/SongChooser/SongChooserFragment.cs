@@ -42,11 +42,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
             _rvItems.HasFixedSize = true;
             _rvItems.SetLayoutManager(new LinearLayoutManager(Context));
 
-            if (ContextCompat.CheckSelfPermission(Context, Android.Manifest.Permission.ReadExternalStorage) != Permission.Granted)
-            {
-                RequestPermissions();
-            }
-            else
+            if (PermissionRequest.Storage.Request(Activity, Resource.String.rationale_add_songs, Constants.PermissionRequests.AddSongs))
             {
                 ActivateListAdapter();
             }
@@ -97,50 +93,17 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongChooser
             NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
         }
 
-        private void RequestPermissions()
-        {
-            // Request file system permissions
-            if (ActivityCompat.ShouldShowRequestPermissionRationale(Activity, Android.Manifest.Permission.ReadExternalStorage))
-            {
-                // Show rationale
-                Snackbar
-                    .Make(MainActivity.MainLayout, Resource.String.rationale_read_external_storage, Snackbar.LengthIndefinite)
-                    .SetAction(Resource.String.ok, new Action<View>(view =>
-                    {
-                        // Request permissions
-                        ActivityCompat.RequestPermissions(
-                           Activity,
-                           new[] { Android.Manifest.Permission.ReadExternalStorage },
-                           Constants.PermissionRequests.ReadExternalStorage);
-                    }))
-                    .Show();
-            }
-            else
-            {
-                // Request permissions
-                ActivityCompat.RequestPermissions(
-                    Activity,
-                    new[] { Android.Manifest.Permission.ReadExternalStorage },
-                    Constants.PermissionRequests.ReadExternalStorage);
-            }
-        }
-
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            if (requestCode == Constants.PermissionRequests.ReadExternalStorage)
+            if (PermissionRequest.WasGranted(grantResults))
             {
-                if (grantResults.Length == 1 && grantResults[0] == Permission.Granted)
-                {
-                    ActivateListAdapter();
-                    return;
-                }
-
-                // Permission has not been granted, go back to details
-                NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
+                ActivateListAdapter();
                 return;
             }
 
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            // Permission has not been granted, go back to details
+            NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(NavDirection.Backward, f => f.Playlist = Playlist);
+            return;
         }
 
         private void ActivateListAdapter()

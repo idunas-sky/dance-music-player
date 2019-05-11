@@ -15,4 +15,9 @@
             android:entryValues="@array/max_speed_values">
         </ListPreference>
     </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/import_export">
+        <Preference android:title="@string/import_playlist" android:key="@string/key_import_playlist" />
+        <Preference android:title="@string/export_playlist" android:key="@string/key_export_playlist" />
+    </android.support.v7.preference.PreferenceCategory>
 </PreferenceScreen>

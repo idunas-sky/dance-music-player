@@ -4,8 +4,13 @@
     {
         public static class PermissionRequests
         {
-            public const int ReadExternalStorage = 1;
             public const int StartForegroundService = 2;
+
+            // Storage access
+            public const int ImportPlaylists = 10;
+            public const int ExportPlaylists = 11;
+            public const int PlaySongs = 12;
+            public const int AddSongs = 13;
         }
 
         public static class Prefs

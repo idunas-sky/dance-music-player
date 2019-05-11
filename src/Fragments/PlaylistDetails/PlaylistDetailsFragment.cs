@@ -1,15 +1,17 @@
 ﻿
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
-using Idunas.DanceMusicPlayer.Fragments.Player;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistEditor;
 using Idunas.DanceMusicPlayer.Fragments.Playlists;
 using Idunas.DanceMusicPlayer.Fragments.SongChooser;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services;
+using Idunas.DanceMusicPlayer.Util;
 
 namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
 {
@@ -44,7 +46,12 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
             _rvAdapter = new PlaylistDetailsRvAdapter(Playlist);
             _rvAdapter.SongClick += (sender, e) =>
             {
-                MainActivity.ShowPlayer(e, Playlist);
+                // We need to ensure we have permissions to access the external storage
+                // to load the song and play it
+                if (PermissionRequest.Storage.Request(Activity, Resource.String.rationale_play_songs, Constants.PermissionRequests.PlaySongs))
+                {
+                    MainActivity.ShowPlayer(e, Playlist);
+                }
             };
             _rvItems.SetAdapter(_rvAdapter);
 
@@ -101,6 +108,14 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
                 .SetNegativeButton(Resource.String.cancel, (sender, e) => { })
                 .Create()
                 .Show();
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            if (PermissionRequest.WasGranted(grantResults))
+            {
+                MainActivity.ShowPlayer(_rvAdapter.SelectedSong, Playlist);
+            }
         }
     }
 }

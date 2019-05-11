@@ -385,14 +385,15 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             }
 
             var position = _seekBarPosition.Progress;
-            var dialogResult = await AlertDialogUtils.ShowEditTextDialog(
-                Activity,
-                Resource.String.add_bookmark,
-                Resource.String.name,
-                Resource.String.ok,
-                Resource.String.cancel);
+            var dialogResult = await MessageBox
+                .Build(Activity)
+                .SetTitle(Resource.String.add_bookmark)
+                .ShowWithEditText(
+                    Resource.String.name,
+                    Resource.String.ok,
+                    Resource.String.cancel);
 
-            if (dialogResult.DialogResult == AlertDialogUtils.AlertDialogResult.Positive)
+            if (dialogResult.DialogResult == MessageBox.MessageBoxResult.Positive)
             {
                 _song.Bookmarks.Add(new Bookmark
                 {

@@ -2,6 +2,9 @@
     <string name="app_name">Dance Music Player</string>
     <string name="default_notification_channel_id">default</string>
 
+    <string name="key_import_playlist">IMPORT_PLAYLIST</string>
+    <string name="key_export_playlist">EXPORT_PLAYLIST</string>
+
     <string name="about">Über die App</string>
     <string name="about_me">
         <![CDATA[
@@ -31,20 +34,32 @@
     <string name="default_value">(Standard)</string>
     <string name="delete">Löschen</string>
     <string name="edit">Bearbeiten</string>
+    <string name="error">Fehler</string>
+    <string name="error_invalid_filename">{0} ist kein gültiger Dateiname</string>
+    <string name="error_no_import_files">Im Import-Verzeichnis \'{0}\' wurden keine Dateien gefunden</string>
+    <string name="export_playlist">Playlisten exportieren</string>
     <string name="help_loop_marker">Loop-Marker gesetzt! Lange drücken, um den Marker wieder zu löschen.</string>
+    <string name="import_export">Import / Export</string>
+    <string name="import_playlist">Playlisten importieren</string>
+    <string name="loading">Wird geladen ...</string>
+    <string name="message_no_playlists_for_export">Du hast noch keine Playlisten erstellt, die wir exportieren können</string>
     <string name="message_delete_playlist">Soll die Playlist \'{0}\' unwiderruflich gelöscht werden?</string>
     <string name="name">Name</string>
     <string name="new_playlist">Neue Playlist</string>
     <string name="no_song_selected">Kein Lied ausgewählt</string>
     <string name="notification_channel_description">Benachrichtigung für die Anzeige des aktuell abgespielten Lieds und der Möglichkeit dieses abzuspielen / zu pausieren bzw. zum nächsten Lied zu wechseln</string>
     <string name="ok">OK</string>
+    <string name="permission_required">Berechtigung</string>
     <string name="player">Player</string>
-    <string name="rationale_read_external_storage">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
+    <string name="rationale_add_songs">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
+    <string name="rationale_playlist_export">Wir benötigen Zugriff auf dein \'Download\'-Verzeichnis, damit wir die Playlisten exportieren können.</string>
+    <string name="rationale_play_songs">Wir benötigen Zugriff auf deine Dateien, damit du Lieder abspielen kannst.</string>
     <string name="save">Speichern</string>
     <string name="settings">Einstellungen</string>
     <string name="settings_speed_max">Max. Abspielgeschwindigkeit</string>
     <string name="settings_speed_min">Min. Abspielgeschwindigkeit</string>
     <string name="speed">Geschwindigkeit</string>
+    <string name="success">Erfolg</string>
     <string name="title_delete_playlist">Playlist löschen?</string>
     <string name="x_song">1 Lied</string>
     <string name="x_songs">{0} Lieder</string>

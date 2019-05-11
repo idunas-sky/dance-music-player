@@ -22,6 +22,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
             }
         }
 
+        public Song SelectedSong { get; private set; }
+
         public PlaylistDetailsRvAdapter(Playlist playlist)
         {
             Playlist = playlist;
@@ -62,6 +64,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
 
         private void HandleSongClick(Song song)
         {
+            SelectedSong = song;
             SongClick?.Invoke(this, song);
         }
 
