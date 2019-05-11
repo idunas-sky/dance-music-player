@@ -1,13 +1,12 @@
-﻿using System;
-using Android.Support.V7.Widget;
-using Android.Views;
+﻿using Android.Views;
 using Android.Widget;
+using Idunas.DanceMusicPlayer.Framework.ListView;
 using Idunas.DanceMusicPlayer.Models;
-using Idunas.DanceMusicPlayer.Services;
+using System;
 
 namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
 {
-    public class PlaylistDetailItemViewHolder : RecyclerView.ViewHolder
+    public class PlaylistDetailItemViewHolder : RecyclerViewViewHolderBase<Song>
     {
         public Action<Song, IMenuItem> MenuItemClick
         {
@@ -45,7 +44,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
             itemView.Click += (sender, e) => SongClick?.Invoke(_song);
         }
 
-        public void BindData(Song song)
+        public override void BindData(Song song)
         {
             _song = song;
 

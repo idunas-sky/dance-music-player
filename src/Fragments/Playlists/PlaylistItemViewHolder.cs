@@ -2,12 +2,13 @@
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Idunas.DanceMusicPlayer.Framework.ListView;
 using Idunas.DanceMusicPlayer.Models;
 using System;
 
 namespace Idunas.DanceMusicPlayer.Fragments.Playlists
 {
-    public class PlaylistItemViewHolder : RecyclerView.ViewHolder
+    public class PlaylistItemViewHolder : RecyclerViewViewHolderBase<Playlist>
     {
         private TextView _lblName;
         private TextView _lblSongCount;
@@ -20,7 +21,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
             view.Click += (sender, e) => clickListener(LayoutPosition);
         }
 
-        public void BindData(Playlist playlist)
+        public override void BindData(Playlist playlist)
         {
             _lblName.Text = playlist.Name;
             _lblSongCount.Text = playlist.Songs.Count == 1

@@ -1,14 +1,15 @@
-﻿
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
+using Android.Support.V7.Widget.Helper;
 using Android.Views;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistEditor;
 using Idunas.DanceMusicPlayer.Fragments.Playlists;
 using Idunas.DanceMusicPlayer.Fragments.SongChooser;
+using Idunas.DanceMusicPlayer.Framework.ListView;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services;
 using Idunas.DanceMusicPlayer.Util;
@@ -54,6 +55,9 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
                 }
             };
             _rvItems.SetAdapter(_rvAdapter);
+
+            var itemTouchHelper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(_rvAdapter));
+            itemTouchHelper.AttachToRecyclerView(_rvItems);
 
             return view;
         }

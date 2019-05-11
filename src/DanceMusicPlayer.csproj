@@ -65,6 +65,9 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\ListView\IRecyclerViewViewHolder.cs" />
+    <Compile Include="Framework\ListView\RecyclerViewAdapterBase.cs" />
+    <Compile Include="Framework\ListView\ITouchableListViewAdapter.cs" />
     <Compile Include="FragmentLifecycleManager.cs" />
     <Compile Include="Fragments\About\AboutFragment.cs" />
     <Compile Include="Fragments\INavFragment.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Fragments\SongChooser\SongChooserFragment.cs" />
     <Compile Include="Fragments\SongChooser\SongChooserRvAdapter.cs" />
     <Compile Include="Fragments\SongChooser\SongItemViewHolder.cs" />
+    <Compile Include="Framework\ListView\RecyclerViewViewHolderBase.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\Playlist.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Util\KeyboardUtils.cs" />
     <Compile Include="Util\Location.cs" />
     <Compile Include="Util\PermissionRequest.cs" />
+    <Compile Include="Framework\ListView\SimpleItemTouchHelperCallback.cs" />
     <Compile Include="Util\UserLockedBottomSheetBehavior.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,12 @@
 ﻿using Android.OS;
 using Android.Support.V7.Widget;
+using Android.Support.V7.Widget.Helper;
 using Android.Views;
 using Idunas.DanceMusicPlayer.Fragments.About;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistDetails;
 using Idunas.DanceMusicPlayer.Fragments.PlaylistEditor;
 using Idunas.DanceMusicPlayer.Fragments.Settings;
+using Idunas.DanceMusicPlayer.Framework.ListView;
 using Idunas.DanceMusicPlayer.Models;
 
 namespace Idunas.DanceMusicPlayer.Fragments.Playlists
@@ -24,6 +26,10 @@ namespace Idunas.DanceMusicPlayer.Fragments.Playlists
             var adapter = new PlaylistsRvAdapter();
             adapter.ItemClick += (sender, e) => NavManager.Instance.NavigateTo<PlaylistDetailsFragment>(f => f.Playlist = e);
             _rvPlaylists.SetAdapter(adapter);
+
+
+            var itemTouchHelper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(adapter));
+            itemTouchHelper.AttachToRecyclerView(_rvPlaylists);
 
             return view;
         }

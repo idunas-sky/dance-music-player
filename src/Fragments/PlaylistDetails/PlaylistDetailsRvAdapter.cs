@@ -1,12 +1,14 @@
 ﻿using Android.Support.V7.Widget;
 using Android.Views;
+using Idunas.DanceMusicPlayer.Framework.ListView;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services;
 using System;
+using System.Collections.Generic;
 
 namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
 {
-    public class PlaylistDetailsRvAdapter : RecyclerView.Adapter
+    public class PlaylistDetailsRvAdapter : RecyclerViewAdapterBase<Song>, ITouchableListViewAdapter
     {
         private Playlist _playlist;
 
@@ -24,16 +26,17 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
 
         public Song SelectedSong { get; private set; }
 
+        protected override IList<Song> Items
+        {
+            get
+            {
+                return Playlist.Songs;
+            }
+        }
+
         public PlaylistDetailsRvAdapter(Playlist playlist)
         {
             Playlist = playlist;
-        }
-
-        public override int ItemCount => Playlist.Songs.Count;
-
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
-        {
-            ((PlaylistDetailItemViewHolder)holder).BindData(GetItem(position));
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -68,14 +71,17 @@ namespace Idunas.DanceMusicPlayer.Fragments.PlaylistDetails
             SongClick?.Invoke(this, song);
         }
 
-        private Song GetItem(int position)
+        public void ItemMoved(int fromPosition, int toPosition)
         {
-            if (Playlist.Songs.Count > position)
+            var movedSong = GetItem(fromPosition);
+            if (movedSong != null)
             {
-                return Playlist.Songs[position];
-            }
+                Items.Remove(movedSong);
+                Items.Insert(toPosition, movedSong);
 
-            return null;
+                PlaylistsService.Instance.Save();
+                NotifyItemMoved(fromPosition, toPosition);
+            }
         }
     }
 }
