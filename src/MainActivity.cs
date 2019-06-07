@@ -23,7 +23,7 @@ using System.Collections.Generic;
 
 namespace Idunas.DanceMusicPlayer.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.Launcher", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
         #region --- Private member
@@ -60,6 +60,7 @@ namespace Idunas.DanceMusicPlayer.Activities
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            SetTheme(Resource.Style.AppTheme);
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Main);

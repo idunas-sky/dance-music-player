@@ -11,6 +11,10 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="actionOverflowButtonStyle">@style/WhiteOverflowButtonStyle</item>
     </style>
+    
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
 
     <style name="WhiteOverflowButtonStyle"
            parent="Widget.AppCompat.ActionButton.Overflow">
