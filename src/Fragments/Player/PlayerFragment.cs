@@ -18,7 +18,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
     public class PlayerFragment : NavFragment
     {
         private SettingsService _settingsService;
-        private PlayerServiceController _controller;
+        private BackgroundAudioServiceController _controller;
         private Playlist _playlist;
         private Song _song;
 
@@ -127,7 +127,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             {
                 // Player-Service is not connected yet, so we will connect now
                 // and handle everything else in the Connected-event.
-                _controller = new PlayerServiceController(Context);
+                _controller = new BackgroundAudioServiceController(Context);
                 _controller.Connected += HandleControllerConnected;
                 _controller.Start();
             }
@@ -146,16 +146,16 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
         private void HandleControllerConnected(object sender, EventArgs e)
         {
             // Get the current state of the player once
-            HandlePlayerServiceStateChanged(null, _controller.Service.State);
-            HandlePlayerServiceSongChanged(null, _controller.Service.CurrentSong);
-            HandlePlayerServiceDurationChanged(null, _controller.Service.Duration);
-            HandlePlayerServicePositionChanged(null, _controller.Service.Position);
+            HandlePlayerServiceStateChanged(null, _controller.MusicPlayer.State);
+            HandlePlayerServiceSongChanged(null, _controller.MusicPlayer.CurrentSong);
+            HandlePlayerServiceDurationChanged(null, _controller.MusicPlayer.Duration);
+            HandlePlayerServicePositionChanged(null, _controller.MusicPlayer.Position);
 
             // Subscribe for future updates
-            _controller.Service.PositionChanged += HandlePlayerServicePositionChanged;
-            _controller.Service.DurationChanged += HandlePlayerServiceDurationChanged;
-            _controller.Service.StateChanged += HandlePlayerServiceStateChanged;
-            _controller.Service.SongChanged += HandlePlayerServiceSongChanged;
+            _controller.MusicPlayer.PositionChanged += HandlePlayerServicePositionChanged;
+            _controller.MusicPlayer.DurationChanged += HandlePlayerServiceDurationChanged;
+            _controller.MusicPlayer.StateChanged += HandlePlayerServiceStateChanged;
+            _controller.MusicPlayer.SongChanged += HandlePlayerServiceSongChanged;
         }
 
         private void HandleSettingsChanged(object sender, AppSettings e)
@@ -190,12 +190,12 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         #region --- Event handlers
 
-        private void HandlePlayerServicePositionChanged(object sender, int position)
+        private void HandlePlayerServicePositionChanged(object sender, long position)
         {
             Activity.RunOnUiThread(() => SetPosition(position));
         }
 
-        private void HandlePlayerServiceDurationChanged(object sender, int duration)
+        private void HandlePlayerServiceDurationChanged(object sender, long duration)
         {
             Activity.RunOnUiThread(() => SetDuration(duration));
         }
@@ -217,7 +217,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             if (_rvAdapter != null)
             {
                 _rvAdapter.Song = song;
-                _rvAdapter.NotifyDataSetChanged();
+                Activity.RunOnUiThread(() => _rvAdapter.NotifyDataSetChanged());
             }
 
             if (MainActivity != null)
@@ -235,7 +235,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             }
 
             _lblSpeed.Text = $"{PlaybackSpeed}%";
-            _controller?.Service?.ChangeSpeed(PlaybackSpeed / 100f);
+            _controller?.MusicPlayer?.ChangeSpeed(PlaybackSpeed / 100f);
         }
 
         private void HandleLabelSpeedLongClick(object sender, View.LongClickEventArgs e)
@@ -408,24 +408,24 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         private async void HandlePlayPauseClick(object sender, EventArgs e)
         {
-            if (_controller.Service.State == PlayerState.Playing)
+            if (_controller.MusicPlayer.State == PlayerState.Playing)
             {
-                _controller.Service.Pause();
+                _controller.MusicPlayer.Pause();
             }
             else
             {
-                await _controller.Service.Play();
+                await _controller.MusicPlayer.Play(true);
             }
         }
 
         private async void HandlePreviousClick(object sender, EventArgs e)
         {
-            await _controller.Service.PlayPreviousSong();
+            await _controller.MusicPlayer.PlayPreviousSong();
         }
 
         private async void HandleNextClick(object sender, EventArgs e)
         {
-            await _controller.Service.PlayNextSong();
+            await _controller.MusicPlayer.PlayNextSong();
         }
 
         #endregion
@@ -438,25 +438,25 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             PlaybackSpeed = _playlist.Speed;
             EnsureState();
 
-            _controller.Service.Load(_song, _playlist);
+            _controller.MusicPlayer.Load(_song, _playlist);
         }
 
-        private void SeekTo(int position)
+        private void SeekTo(long position)
         {
-            _seekBarPosition.Progress = position;
+            _seekBarPosition.Progress = (int)position;
             _lblCurrentPosition.Text = TimeSpan.FromMilliseconds(position).ToString(@"mm\:ss");
-            _controller?.Service?.SeekTo(position);
+            _controller?.MusicPlayer?.SeekTo(position);
         }
 
-        private void SetDuration(int duration)
+        private void SetDuration(long duration)
         {
-            _seekBarPosition.Max = duration;
+            _seekBarPosition.Max = (int)duration;
             _lblDuration.Text = TimeSpan.FromMilliseconds(duration).ToString(@"mm\:ss");
         }
 
-        private void SetPosition(int position)
+        private void SetPosition(long position)
         {
-            _seekBarPosition.SetProgress(position, true);
+            _seekBarPosition.SetProgress((int)position, true);
             _lblCurrentPosition.Text = TimeSpan.FromMilliseconds(position).ToString(@"mm\:ss");
         }
 
@@ -469,7 +469,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         private void EnsureState()
         {
-            var isPlayerReady = _controller?.Service != null && _playlist != null;
+            var isPlayerReady = _controller?.MusicPlayer != null && _playlist != null;
 
             // Disable / enable all buttons depending on connection
             _seekBarSpeed.Enabled = isPlayerReady;
@@ -498,11 +498,11 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             _loopPositionIndicator.LoopMarkerEnd = _song?.LoopMarkerEnd;
 
             _btnPlayPause.SetImageResource(
-                _controller.Service.State == PlayerState.Playing
+                _controller.MusicPlayer.State == PlayerState.Playing
                     ? Resource.Drawable.ic_pause
                     : Resource.Drawable.ic_play);
-            _btnPrevious.Enabled = _controller.Service.HasPreviousSong;
-            _btnNext.Enabled = _controller.Service.HasNextSong;
+            _btnPrevious.Enabled = _controller.MusicPlayer.HasPreviousSong;
+            _btnNext.Enabled = _controller.MusicPlayer.HasNextSong;
         }
     }
 }

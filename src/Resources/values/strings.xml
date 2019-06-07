@@ -35,6 +35,7 @@
     <string name="delete">Löschen</string>
     <string name="edit">Bearbeiten</string>
     <string name="error">Fehler</string>
+    <string name="error_could_not_get_audio_focus">Audio-Fokus konnte nicht angefordert werden.</string>
     <string name="error_invalid_filename">{0} ist kein gültiger Dateiname</string>
     <string name="error_no_import_files">Im Import-Verzeichnis \'{0}\' wurden keine Dateien gefunden</string>
     <string name="export_playlist">Playlisten exportieren</string>
@@ -45,11 +46,15 @@
     <string name="message_delete_playlist">Soll die Playlist \'{0}\' unwiderruflich gelöscht werden?</string>
     <string name="name">Name</string>
     <string name="new_playlist">Neue Playlist</string>
+    <string name="next_song">Nächstes Lied</string>
     <string name="no_song_selected">Kein Lied ausgewählt</string>
     <string name="notification_channel_description">Benachrichtigung für die Anzeige des aktuell abgespielten Lieds und der Möglichkeit dieses abzuspielen / zu pausieren bzw. zum nächsten Lied zu wechseln</string>
     <string name="ok">OK</string>
+    <string name="pause">Pause</string>
     <string name="permission_required">Berechtigung</string>
+    <string name="play">Play</string>
     <string name="player">Player</string>
+    <string name="prev_song">Vorheriges Lied</string>
     <string name="rationale_add_songs">Wir benötigen Zugriff auf deine Dateien, damit du Lieder zu deiner Playlist hinzufügen kannst.</string>
     <string name="rationale_playlist_export">Wir benötigen Zugriff auf dein \'Download\'-Verzeichnis, damit wir die Playlisten exportieren können.</string>
     <string name="rationale_play_songs">Wir benötigen Zugriff auf deine Dateien, damit du Lieder abspielen kannst.</string>

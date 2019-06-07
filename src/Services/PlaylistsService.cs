@@ -78,16 +78,16 @@ namespace Idunas.DanceMusicPlayer.Services
 
         private void SaveInternal(string path)
         {
-            var tmpFileContent = JsonConvert.SerializeObject(Playlists);
-            File.WriteAllText(path, tmpFileContent);
+            var fileContent = JsonConvert.SerializeObject(Playlists);
+            File.WriteAllText(path, fileContent);
         }
 
         private IList<Playlist> LoadInternal(string filePath)
         {
             try
             {
-                var tmpFileContent = File.ReadAllText(filePath);
-                return JsonConvert.DeserializeObject<IList<Playlist>>(tmpFileContent);
+                var fileContent = File.ReadAllText(filePath);
+                return JsonConvert.DeserializeObject<IList<Playlist>>(fileContent);
             }
             catch (Exception ex)
             {

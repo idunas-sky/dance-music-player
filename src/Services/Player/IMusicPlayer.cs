@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Idunas.DanceMusicPlayer.Services.Player
 {
-    public interface IPlayerService
+    public interface IMusicPlayer : IDisposable
     {
-        event EventHandler<int> DurationChanged;
-        event EventHandler<int> PositionChanged;
+        event EventHandler<long> DurationChanged;
+        event EventHandler<long> PositionChanged;
         event EventHandler<PlayerState> StateChanged;
         event EventHandler<Song> SongChanged;
 
@@ -27,9 +27,11 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         Task Load(Song song, Playlist playlist);
 
-        Task Play();
+        Task Play(bool requestAudioFocus);
 
         void Pause();
+
+        void Stop();
 
         Task PlayNextSong();
 
@@ -37,6 +39,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         void ChangeSpeed(float speed);
 
-        void SeekTo(int position);
+        void SeekTo(long position);
+
+        void LowerVolume();
     }
 }

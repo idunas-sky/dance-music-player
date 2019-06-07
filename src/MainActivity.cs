@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
+using Android.Support.V4.Media;
+using Android.Support.V4.Media.Session;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
@@ -14,6 +16,7 @@ using Idunas.DanceMusicPlayer.Fragments.Player;
 using Idunas.DanceMusicPlayer.Fragments.Playlists;
 using Idunas.DanceMusicPlayer.Fragments.SongBar;
 using Idunas.DanceMusicPlayer.Models;
+using Idunas.DanceMusicPlayer.Services.Player;
 using Idunas.DanceMusicPlayer.Util;
 using System;
 using System.Collections.Generic;
@@ -112,7 +115,8 @@ namespace Idunas.DanceMusicPlayer.Activities
 
             var channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Player", NotificationImportance.High)
             {
-                Description = GetString(Resource.String.notification_channel_description)
+                Description = GetString(Resource.String.notification_channel_description),
+                LockscreenVisibility = NotificationVisibility.Public
             };
 
             ((NotificationManager)GetSystemService(Context.NotificationService)).CreateNotificationChannel(channel);
@@ -128,7 +132,6 @@ namespace Idunas.DanceMusicPlayer.Activities
 
             _bottomSheetBehavior.SetBottomSheetCallback(new SongbarSheetCallback(this));
         }
-
 
         #region --- Bottom sheet layout handling
 

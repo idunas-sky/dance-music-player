@@ -1,11 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Idunas.DanceMusicPlayer.Models
 {
     public class Song
     {
-        public string Name { get; set; }
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_name))
+                {
+                    return "";
+                }
+
+                return Path.GetFileNameWithoutExtension(_name);
+            }
+            set { _name = value; }
+        }
 
         public string FilePath { get; set; }
 

@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 
 namespace Idunas.DanceMusicPlayer.Services.Player
 {
-    public class PlayerServiceController : Java.Lang.Object, IServiceConnection
+    public class BackgroundAudioServiceController : Java.Lang.Object, IServiceConnection
     {
         public event EventHandler Connected;
 
         private readonly Context _context;
-        private PlayerServiceBinder _binder;
-        private TaskCompletionSource<PlayerServiceBinder> _connectionCompletionSource;
+        private BackgroundAudioServiceBinder _binder;
 
-        public IPlayerService Service
+        public IMusicPlayer MusicPlayer
         {
-            get { return _binder?.Service; }
+            get { return _binder?.Service?.MusicPlayer; }
         }
 
-        public PlayerServiceController(Context context)
+        public BackgroundAudioServiceController(Context context)
         {
             _context = context;
             _binder = null;
@@ -27,26 +26,24 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         public void Start()
         {
-            var intent = new Intent(_context, typeof(PlayerService));
-            intent.SetAction(PlayerService.START_FOREGROUND_ACTION);
+            var intent = new Intent(_context, typeof(BackgroundAudioService));
+            intent.SetAction(BackgroundAudioService.START_FOREGROUND_ACTION);
 
             ContextCompat.StartForegroundService(_context, intent);
-
-            _connectionCompletionSource = new TaskCompletionSource<PlayerServiceBinder>();
             _context.BindService(intent, this, Bind.None);
         }
 
         public void Stop()
         {
             _context.UnbindService(this);
-            _context.StopService(new Intent(_context, typeof(PlayerService)));
+            _context.StopService(new Intent(_context, typeof(BackgroundAudioService)));
         }
 
         #region --- IServiceConnection implementation
 
         public void OnServiceConnected(ComponentName name, IBinder service)
         {
-            _binder = (PlayerServiceBinder)service;
+            _binder = (BackgroundAudioServiceBinder)service;
             Connected?.Invoke(this, EventArgs.Empty);
         }
 

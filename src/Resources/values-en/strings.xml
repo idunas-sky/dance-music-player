@@ -34,6 +34,7 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="error">Error</string>
+    <string name="error_could_not_get_audio_focus">Failed to request audio-focus.</string>
     <string name="error_invalid_filename">{0} is no valid filename</string>
     <string name="error_no_import_files">No files found in import directory \'{0}\'</string>
     <string name="export_playlist">Export playlists</string>
@@ -44,11 +45,15 @@
     <string name="message_delete_playlist">Really delete playlist \'{0}\'? This can\'t be undone!</string>
     <string name="name">Name</string>
     <string name="new_playlist">New playlist</string>
+    <string name="next_song">Next song</string>
     <string name="no_song_selected">No song selected</string>
     <string name="notification_channel_description">Notifications to display current song and pause / resume / play next song.</string>
     <string name="ok">OK</string>
+    <string name="pause">Pause</string>
     <string name="permission_required">Permission</string>
+    <string name="play">Play</string>
     <string name="player">Player</string>
+    <string name="prev_song">Previous song</string>
     <string name="rationale_add_songs">We need to access your files to allow you to choose songs for your playlist.</string>
     <string name="rationale_playlist_export">We need to access your \'Download\'-Directory to export playlists.</string>
     <string name="rationale_play_songs">We need to access your files to allow you to play songs.</string>
