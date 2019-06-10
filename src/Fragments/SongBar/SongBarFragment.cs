@@ -4,6 +4,7 @@ using Android.Views;
 using Android.Widget;
 using Idunas.DanceMusicPlayer.Activities;
 using Idunas.DanceMusicPlayer.Models;
+using Idunas.DanceMusicPlayer.Services.AudioService;
 using Idunas.DanceMusicPlayer.Services.Player;
 using System;
 
@@ -11,7 +12,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
 {
     public class SongBarFragment : Fragment
     {
-        private BackgroundAudioServiceController _controller;
+        private ForegroundAudioServiceController _controller;
         private ProgressBar _progressBar;
         private TextView _lblSong;
         private ImageButton _btnPlayPause;
@@ -40,7 +41,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.SongBar
             {
                 // Player-Service is not connected yet, so we will connect now
                 // and handle everything else in the Connected-event.
-                _controller = new BackgroundAudioServiceController(Context);
+                _controller = new ForegroundAudioServiceController(Context);
                 _controller.Connected += HandleControllerConnected;
                 _controller.Start();
             }

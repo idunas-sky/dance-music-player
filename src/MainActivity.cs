@@ -54,7 +54,9 @@ namespace Idunas.DanceMusicPlayer.Activities
             }
         }
 
-        public static View MainLayout { get; private set; }
+        //public static View MainLayout { get; private set; }
+
+        public static IMusicPlayer MusicPlayer { get; private set; }
 
         #endregion
 
@@ -78,14 +80,23 @@ namespace Idunas.DanceMusicPlayer.Activities
             // the player notification
             CreateNotificationChannel();
 
+            InitMusicPlayer();
             // TODO
-            MainLayout = FindViewById<View>(Resource.Id.layout_main);
+            //MainLayout = FindViewById<View>(Resource.Id.layout_main);
 
             // Show initial main fragment
             ShowFragment(typeof(PlaylistsFragment), NavDirection.Forward, null);
 
             // Bottom sheet (Songbar)
             PrepareSongBar();
+        }
+
+        private void InitMusicPlayer()
+        {
+            if (MusicPlayer == null)
+            {
+                MusicPlayer = new MusicPlayer(this);
+            }
         }
 
         private void InitializePermissions()
@@ -132,6 +143,13 @@ namespace Idunas.DanceMusicPlayer.Activities
             FragmentPlayer = (PlayerFragment)SupportFragmentManager.FindFragmentById(Resource.Id.fragment_player);
 
             _bottomSheetBehavior.SetBottomSheetCallback(new SongbarSheetCallback(this));
+        }
+
+        protected override void OnDestroy()
+        {
+            MusicPlayer.Dispose();
+
+            base.OnDestroy();
         }
 
         #region --- Bottom sheet layout handling

@@ -8,6 +8,7 @@ using Android.Widget;
 using Idunas.DanceMusicPlayer.Activities;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services;
+using Idunas.DanceMusicPlayer.Services.AudioService;
 using Idunas.DanceMusicPlayer.Services.Player;
 using Idunas.DanceMusicPlayer.Services.Settings;
 using Idunas.DanceMusicPlayer.Util;
@@ -18,7 +19,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
     public class PlayerFragment : NavFragment
     {
         private SettingsService _settingsService;
-        private BackgroundAudioServiceController _controller;
+        private ForegroundAudioServiceController _controller;
         private Playlist _playlist;
         private Song _song;
 
@@ -127,7 +128,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             {
                 // Player-Service is not connected yet, so we will connect now
                 // and handle everything else in the Connected-event.
-                _controller = new BackgroundAudioServiceController(Context);
+                _controller = new ForegroundAudioServiceController(Context);
                 _controller.Connected += HandleControllerConnected;
                 _controller.Start();
             }

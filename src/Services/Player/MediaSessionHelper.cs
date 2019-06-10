@@ -10,8 +10,9 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 {
     public class MediaSessionHelper
     {
-        public static Notification GetNotification(Context context, MediaSessionCompat mediaSession, IMusicPlayer musicPlayer)
+        public static Notification GetNotification(Context context, IMusicPlayer musicPlayer)
         {
+            var mediaSession = musicPlayer.MediaSession;
             var description = mediaSession.Controller.Metadata.Description;
             var currentPosition = string.Format(
                 @"{0:mm\:ss} | {1:mm\:ss}",
@@ -40,14 +41,14 @@ namespace Idunas.DanceMusicPlayer.Services.Player
                     builder.AddAction(new NotificationCompat.Action(
                         Resource.Drawable.ic_pause,
                         context.GetString(Resource.String.pause),
-                        MediaButtonReceiver.BuildMediaButtonPendingIntent(context, PlaybackStateCompat.ActionPlayPause)));
+                        MediaButtonReceiver.BuildMediaButtonPendingIntent(context, PlaybackStateCompat.ActionPause)));
                 }
                 else
                 {
                     builder.AddAction(new NotificationCompat.Action(
                         Resource.Drawable.ic_play,
                         context.GetString(Resource.String.play),
-                        MediaButtonReceiver.BuildMediaButtonPendingIntent(context, PlaybackStateCompat.ActionPlayPause)));
+                        MediaButtonReceiver.BuildMediaButtonPendingIntent(context, PlaybackStateCompat.ActionPlay)));
                 }
 
                 builder.AddAction(new NotificationCompat.Action(

@@ -3,7 +3,7 @@ using Android.App;
 using Android.Content;
 using Android.Media;
 
-namespace Idunas.DanceMusicPlayer.Services.Player
+namespace Idunas.DanceMusicPlayer.Services.AudioService
 {
     [BroadcastReceiver]
     [IntentFilter(new[] { AudioManager.ActionAudioBecomingNoisy })]
@@ -16,7 +16,7 @@ namespace Idunas.DanceMusicPlayer.Services.Player
                 return;
             }
 
-            var serviceBinder = PeekService(context, new Intent(context, typeof(BackgroundAudioService))) as BackgroundAudioServiceBinder;
+            var serviceBinder = PeekService(context, new Intent(context, typeof(ForegroundAudioService))) as ForegroundAudioServiceBinder;
             if (serviceBinder == null)
             {
                 return;

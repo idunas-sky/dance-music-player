@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using Android.App;
+using Android.Content;
 using Android.Graphics;
 using Android.Media;
 using Android.OS;
@@ -7,8 +8,8 @@ using Android.Support.V4.App;
 using Android.Support.V4.Media;
 using Android.Support.V4.Media.Session;
 using Android.Util;
+using Idunas.DanceMusicPlayer.Activities;
 using Idunas.DanceMusicPlayer.Models;
-using Idunas.DanceMusicPlayer.Util;
 using Java.Lang;
 using System;
 using System.Threading;
@@ -19,9 +20,14 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 {
     public class MusicPlayer : IMusicPlayer
     {
-        private MediaSessionCompat _mediaSession;
-        private readonly AudioManager.IOnAudioFocusChangeListener _audioFocusChangeListener;
-        private Context _context;
+        public static AudioAttributes PlaybackAttributes = new AudioAttributes.Builder()
+            .SetUsage(AudioUsageKind.Media)
+            .SetContentType(AudioContentType.Music)
+            .Build();
+
+        private readonly MediaSessionCompat _mediaSession;
+        private readonly Context _context;
+        private readonly Bitmap _defaultArtwork = null;
 
         private SemaphoreSlim _loadingSemaphore = new SemaphoreSlim(1);
         private AudioFocusRequestClass _audioFocusRequest;
@@ -31,18 +37,13 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         private System.Timers.Timer _positionReportTimer;
         private Playlist _playlist = null;
         private int _currentSongIndex = -1;
-        private Bitmap _defaultArtwork = null;
         private Bitmap _currentAlbumArtwork = null;
 
 
-        public MusicPlayer(
-            Context context,
-            MediaSessionCompat mediaSession,
-            AudioManager.IOnAudioFocusChangeListener audioFocusChangeListener)
+        public MusicPlayer(Context context)
         {
             _context = context;
-            _mediaSession = mediaSession;
-            _audioFocusChangeListener = audioFocusChangeListener;
+            _mediaSession = InitMediaSession();
             _defaultArtwork = _currentAlbumArtwork = BitmapFactory.DecodeResource(_context.Resources, Resource.Mipmap.ic_launcher);
 
             _positionReportTimer = new System.Timers.Timer(1000);
@@ -58,6 +59,11 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         public event EventHandler<long> PositionChanged;
         public event EventHandler<PlayerState> StateChanged;
         public event EventHandler<Song> SongChanged;
+
+        public MediaSessionCompat MediaSession
+        {
+            get { return _mediaSession; }
+        }
 
         public PlayerState State
         {
@@ -87,7 +93,6 @@ namespace Idunas.DanceMusicPlayer.Services.Player
                 }
             }
         }
-
 
         public int Position => _mediaPlayer?.CurrentPosition ?? 0;
 
@@ -151,31 +156,6 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             {
                 Log.Error(nameof(PreparePlayer), Throwable.FromException(ex), "Exception loading song");
                 ReleasePlayer();
-            }
-        }
-
-        private Bitmap GetAlbumArtwork()
-        {
-            if (CurrentSong == null)
-            {
-                return _defaultArtwork;
-            }
-
-            try
-            {
-                var mmReceiver = new MediaMetadataRetriever();
-                mmReceiver.SetDataSource(CurrentSong.FilePath);
-                var bitmapData = mmReceiver.GetEmbeddedPicture();
-                if (bitmapData == null)
-                {
-                    return _defaultArtwork;
-                }
-
-                return BitmapFactory.DecodeByteArray(bitmapData, 0, bitmapData.Length);
-            }
-            catch
-            {
-                return _defaultArtwork;
             }
         }
 
@@ -274,19 +254,111 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             }
 
             ReleasePlayer();
+            _mediaSession.Release();
         }
 
         #endregion
 
-        #region --- Event handlers & private functionality
+        #region --- Publishing playback information / managing media session
+
+        private MediaSessionCompat InitMediaSession()
+        {
+            var mediaButtonReceiver = new ComponentName(_context, Java.Lang.Class.FromType(typeof(MediaButtonReceiver)));
+            var mediaSession = new MediaSessionCompat(_context, _context.GetString(Resource.String.app_name), mediaButtonReceiver, null);
+            mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons | MediaSessionCompat.FlagHandlesTransportControls);
+            mediaSession.SetSessionActivity(PendingIntent.GetActivity(_context, 0, new Intent(_context, typeof(MainActivity)), 0));
+
+            var mediaButtonIntent = new Intent(Intent.ActionMediaButton);
+            mediaButtonIntent.SetClass(_context, Java.Lang.Class.FromType(typeof(MediaButtonReceiver)));
+            var pendingIntent = PendingIntent.GetBroadcast(_context, 0, mediaButtonIntent, 0);
+            mediaSession.SetMediaButtonReceiver(pendingIntent);
+
+            mediaSession.SetMetadata(new MediaMetadataCompat.Builder()
+                .PutString(MediaMetadataCompat.MetadataKeyDisplayTitle, _context.GetString(Resource.String.no_song_selected))
+                .Build());
+
+            mediaSession.SetCallback(new MediaSessionCallback(this));
+            mediaSession.Active = true;
+
+            return mediaSession;
+        }
+
+        private Bitmap GetAlbumArtwork()
+        {
+            if (CurrentSong == null)
+            {
+                return _defaultArtwork;
+            }
+
+            try
+            {
+                var mmReceiver = new MediaMetadataRetriever();
+                mmReceiver.SetDataSource(CurrentSong.FilePath);
+                var bitmapData = mmReceiver.GetEmbeddedPicture();
+                if (bitmapData == null)
+                {
+                    return _defaultArtwork;
+                }
+
+                return BitmapFactory.DecodeByteArray(bitmapData, 0, bitmapData.Length);
+            }
+            catch
+            {
+                return _defaultArtwork;
+            }
+        }
+
+        private void UpdateMediaSession()
+        {
+            // Update media state
+            var stateBuilder = new PlaybackStateCompat.Builder();
+
+            if (State == PlayerState.Playing)
+            {
+                stateBuilder
+                    .SetActions(
+                        PlaybackStateCompat.ActionPlayPause |
+                        PlaybackStateCompat.ActionPause |
+                        PlaybackStateCompat.ActionSkipToPrevious |
+                        PlaybackStateCompat.ActionSkipToNext)
+                    .SetState(PlaybackStateCompat.StatePlaying, Position, _mediaPlayer.PlaybackParams.Speed);
+            }
+            else
+            {
+                stateBuilder
+                    .SetActions(
+                        PlaybackStateCompat.ActionPlayPause |
+                        PlaybackStateCompat.ActionPlay |
+                        PlaybackStateCompat.ActionSkipToPrevious |
+                        PlaybackStateCompat.ActionSkipToNext)
+                    .SetState(PlaybackStateCompat.StatePaused, Position, _mediaPlayer?.PlaybackParams?.Speed ?? 0);
+            }
+
+            _mediaSession.SetPlaybackState(stateBuilder.Build());
+            _mediaSession.SetMetadata(new MediaMetadataCompat.Builder()
+                .PutBitmap(MediaMetadataCompat.MetadataKeyArt, _currentAlbumArtwork)
+                .PutString(MediaMetadataCompat.MetadataKeyTitle, CurrentSong?.Name ?? _context.GetString(Resource.String.no_song_selected))
+                .PutLong(MediaMetadataCompat.MetadataKeyDuration, Duration)
+                .Build());
+        }
+
+        private void UpdateNotifiation()
+        {
+            var notification = MediaSessionHelper.GetNotification(_context, this);
+            NotificationManagerCompat.From(_context).Notify(Constants.SERVICE_RUNNING_NOTIFICATION_ID, notification);
+        }
+
+        #endregion
+
+        #region --- Managing player state
 
         private bool RequestAudioFocus()
         {
             var audioManager = (AudioManager)_context.GetSystemService(Context.AudioService);
             _audioFocusRequest = new AudioFocusRequestClass.Builder(AudioFocus.Gain)
-                .SetAudioAttributes(BackgroundAudioService.PlaybackAttributes)
+                .SetAudioAttributes(PlaybackAttributes)
                 .SetAcceptsDelayedFocusGain(true)
-                .SetOnAudioFocusChangeListener(_audioFocusChangeListener)
+                .SetOnAudioFocusChangeListener(new AudioFocusChangeListener(this))
                 .Build();
 
             return audioManager.RequestAudioFocus(_audioFocusRequest) == AudioFocusRequest.Granted;
@@ -416,7 +488,7 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
             _mediaPlayer = new MediaPlayer();
             _mediaPlayer.SetWakeMode(_context, WakeLockFlags.Partial);
-            _mediaPlayer.SetAudioAttributes(BackgroundAudioService.PlaybackAttributes);
+            _mediaPlayer.SetAudioAttributes(PlaybackAttributes);
             _mediaPlayer.Completion += HandlePlayerCompletion;
             _mediaPlayer.Prepared += HandlePlayerPrepared;
         }
@@ -432,44 +504,45 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             }
         }
 
-        private void UpdateMediaSession()
-        {
-            // Update media state
-            var stateBuilder = new PlaybackStateCompat.Builder();
+        #endregion
 
-            if (State == PlayerState.Playing)
+        #region --- AudioFocusChange listener
+
+        private class AudioFocusChangeListener : Java.Lang.Object, AudioManager.IOnAudioFocusChangeListener
+        {
+            private readonly IMusicPlayer _musicPlayer;
+
+            public AudioFocusChangeListener(IMusicPlayer musicPlayer)
             {
-                stateBuilder
-                    .SetActions(
-                        PlaybackStateCompat.ActionPlayPause |
-                        PlaybackStateCompat.ActionPause |
-                        PlaybackStateCompat.ActionSkipToPrevious |
-                        PlaybackStateCompat.ActionSkipToNext)
-                    .SetState(PlaybackStateCompat.StatePlaying, Position, _mediaPlayer.PlaybackParams.Speed);
-            }
-            else
-            {
-                stateBuilder
-                    .SetActions(
-                        PlaybackStateCompat.ActionPlayPause |
-                        PlaybackStateCompat.ActionPlay |
-                        PlaybackStateCompat.ActionSkipToPrevious |
-                        PlaybackStateCompat.ActionSkipToNext)
-                    .SetState(PlaybackStateCompat.StatePaused, Position, _mediaPlayer?.PlaybackParams?.Speed ?? 0);
+                _musicPlayer = musicPlayer;
             }
 
-            _mediaSession.SetPlaybackState(stateBuilder.Build());
-            _mediaSession.SetMetadata(new MediaMetadataCompat.Builder()
-                .PutBitmap(MediaMetadataCompat.MetadataKeyArt, _currentAlbumArtwork)
-                .PutString(MediaMetadataCompat.MetadataKeyTitle, CurrentSong?.Name ?? _context.GetString(Resource.String.no_song_selected))
-                .PutLong(MediaMetadataCompat.MetadataKeyDuration, Duration)
-                .Build());
-        }
-
-        private void UpdateNotifiation()
-        {
-            var notification = MediaSessionHelper.GetNotification(_context, _mediaSession, this);
-            NotificationManagerCompat.From(_context).Notify(BackgroundAudioService.SERVICE_RUNNING_NOTIFICATION_ID, notification);
+            public void OnAudioFocusChange([GeneratedEnum] AudioFocus focusChange)
+            {
+                switch (focusChange)
+                {
+                    case AudioFocus.Gain:
+                    {
+                        _musicPlayer.Play(false);
+                        return;
+                    }
+                    case AudioFocus.Loss:
+                    {
+                        _musicPlayer.Stop();
+                        return;
+                    }
+                    case AudioFocus.LossTransient:
+                    {
+                        _musicPlayer.Pause();
+                        return;
+                    }
+                    case AudioFocus.LossTransientCanDuck:
+                    {
+                        _musicPlayer.LowerVolume();
+                        return;
+                    }
+                }
+            }
         }
 
         #endregion

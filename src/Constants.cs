@@ -1,4 +1,4 @@
-﻿namespace Idunas.DanceMusicPlayer.Util
+﻿namespace Idunas.DanceMusicPlayer
 {
     public static class Constants
     {
@@ -18,5 +18,8 @@
             public const string SpeedMin = "speed_min";
             public const string SpeedMax = "speed_max";
         }
+
+        public const string START_FOREGROUND_ACTION = "de.idunas.dancemusicplayer.action.startforeground";
+        public const int SERVICE_RUNNING_NOTIFICATION_ID = 1;
     }
 }

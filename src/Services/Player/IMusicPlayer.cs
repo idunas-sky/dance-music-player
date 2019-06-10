@@ -1,4 +1,6 @@
-﻿using Idunas.DanceMusicPlayer.Models;
+﻿using Android.Media;
+using Android.Support.V4.Media.Session;
+using Idunas.DanceMusicPlayer.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -10,6 +12,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         event EventHandler<long> PositionChanged;
         event EventHandler<PlayerState> StateChanged;
         event EventHandler<Song> SongChanged;
+
+        MediaSessionCompat MediaSession { get; }
 
         bool IsLooping { get; set; }
 
