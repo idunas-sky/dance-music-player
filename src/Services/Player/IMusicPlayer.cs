@@ -29,6 +29,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         Song CurrentSong { get; }
 
+        Playlist CurrentPlaylist { get; }
+
         Task Load(Song song, Playlist playlist);
 
         Task Play(bool requestAudioFocus);

@@ -6,8 +6,6 @@ using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
-using Android.Support.V4.Media;
-using Android.Support.V4.Media.Session;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
@@ -17,7 +15,6 @@ using Idunas.DanceMusicPlayer.Fragments.Playlists;
 using Idunas.DanceMusicPlayer.Fragments.SongBar;
 using Idunas.DanceMusicPlayer.Models;
 using Idunas.DanceMusicPlayer.Services.Player;
-using Idunas.DanceMusicPlayer.Util;
 using System;
 using System.Collections.Generic;
 
@@ -54,8 +51,6 @@ namespace Idunas.DanceMusicPlayer.Activities
             }
         }
 
-        //public static View MainLayout { get; private set; }
-
         public static IMusicPlayer MusicPlayer { get; private set; }
 
         #endregion
@@ -64,6 +59,7 @@ namespace Idunas.DanceMusicPlayer.Activities
         {
             SetTheme(Resource.Style.AppTheme);
             base.OnCreate(savedInstanceState);
+            InitMusicPlayer();
 
             SetContentView(Resource.Layout.Main);
             SupportFragmentManager.RegisterFragmentLifecycleCallbacks(new FragmentLifecycleManager(this), false);
@@ -79,10 +75,6 @@ namespace Idunas.DanceMusicPlayer.Activities
             // Create the notification channel we will use to display
             // the player notification
             CreateNotificationChannel();
-
-            InitMusicPlayer();
-            // TODO
-            //MainLayout = FindViewById<View>(Resource.Id.layout_main);
 
             // Show initial main fragment
             ShowFragment(typeof(PlaylistsFragment), NavDirection.Forward, null);

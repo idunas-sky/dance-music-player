@@ -115,6 +115,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             }
         }
 
+        public Playlist CurrentPlaylist => _playlist;
+
         public async Task Load(Song song, Playlist playlist)
         {
             try
