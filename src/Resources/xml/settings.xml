@@ -4,24 +4,28 @@
         android:title="@string/player">
         <ListPreference
             android:title="@string/settings_speed_min"
+            android:defaultValue="60"
             android:key="speed_min"
             android:entries="@array/min_speed_labels"
             android:entryValues="@array/min_speed_values">
         </ListPreference>
         <ListPreference
             android:title="@string/settings_speed_max"
+            android:defaultValue="110"
             android:key="speed_max"
             android:entries="@array/max_speed_labels"
             android:entryValues="@array/max_speed_values">
         </ListPreference>
         <ListPreference
             android:title="@string/settings_position_click"
+            android:defaultValue="2"
             android:key="position_click_action"
             android:entries="@array/position_action_labels"
             android:entryValues="@array/position_action_values">
         </ListPreference>
         <ListPreference
             android:title="@string/settings_duration_click"
+            android:defaultValue="2"
             android:key="duration_click_action"
             android:entries="@array/duration_action_labels"
             android:entryValues="@array/duration_action_values">
