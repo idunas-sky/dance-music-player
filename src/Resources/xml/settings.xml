@@ -28,6 +28,14 @@
         </ListPreference>
     </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory
+        android:title="@string/lockscreen">
+        <CheckBoxPreference
+            android:title="@string/settings_enable_lockscreen_skip_to_bookmark"
+            android:summary="@string/settings_enable_lockscreen_skip_to_bookmark_description"
+            android:defaultValue="true"
+            android:key="enable_lockscreen_skip_to_bookmark" />
+    </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory
         android:title="@string/import_export">
         <Preference android:title="@string/import_playlist" android:key="@string/key_import_playlist" />
         <Preference android:title="@string/export_playlist" android:key="@string/key_export_playlist" />

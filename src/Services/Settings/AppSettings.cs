@@ -11,5 +11,7 @@ namespace Idunas.DanceMusicPlayer.Services.Settings
         public PositionDurationClickAction PositionClickAction { get; set; }
 
         public PositionDurationClickAction DurationClickAction { get; set; }
+
+        public bool EnableLockscreenSkipToBookmark { get; set; }
     }
 }

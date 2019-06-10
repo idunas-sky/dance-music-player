@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Util;
 using Android.Views;
 using Idunas.DanceMusicPlayer.Activities;
+using Idunas.DanceMusicPlayer.Services.Settings;
 using Idunas.DanceMusicPlayer.Util;
 using System;
 
@@ -22,6 +23,7 @@ namespace Idunas.DanceMusicPlayer.Services.AudioService
 
             var keyEvent = (KeyEvent)intent.GetParcelableExtra(Intent.ExtraKeyEvent);
             var musicPlayer = MainActivity.MusicPlayer;
+
             if (musicPlayer == null)
             {
                 return;
@@ -64,15 +66,36 @@ namespace Idunas.DanceMusicPlayer.Services.AudioService
                 }
                 case Keycode.MediaPrevious:
                 {
-                    musicPlayer.PlayNextSong();
+                    if (musicPlayer.HasBookmarks && ShouldSkipToBookmark(context))
+                    {
+                        musicPlayer.SeekToPreviousBookmark();
+                    }
+                    else
+                    {
+                        musicPlayer.PlayPreviousSong();
+                    }
+                    
                     return;
                 }
                 case Keycode.MediaNext:
                 {
-                    musicPlayer.PlayPreviousSong();
+                    if (musicPlayer.HasBookmarks && ShouldSkipToBookmark(context))
+                    {
+                        musicPlayer.SeekToNextBookmark();
+                    }
+                    else
+                    {
+                        musicPlayer.PlayNextSong();
+                    }
+                    
                     return;
                 }
             }
+        }
+
+        private bool ShouldSkipToBookmark(Context context)
+        {
+            return new SettingsService(context).Settings.EnableLockscreenSkipToBookmark;
         }
     }
 }

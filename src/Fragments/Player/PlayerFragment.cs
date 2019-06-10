@@ -332,20 +332,13 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                 }
                 case PositionDurationClickAction.SkipToBookmark:
                 {
-                    var bookmarks = MusicPlayer?.CurrentSong?.Bookmarks;
-                    if (bookmarks == null || !bookmarks.Any())
+                    if (!MusicPlayer.HasBookmarks)
                     {
                         SeekTo(MusicPlayer.Position - 10000);
                     }
                     else
                     {
-                        // Find the closest previous bookmark. We add some buffer to to the current position otherwise the 
-                        // user would not be able to skip to the previous bookmark multiple times in a row.
-                        var targetBookmark = bookmarks.OrderByDescending(x => x.Position).FirstOrDefault(x => MusicPlayer.Position - 600 > x.Position);
-                        if (targetBookmark != null)
-                        {
-                            SeekTo(targetBookmark.Position);
-                        }
+                        MusicPlayer.SeekToPreviousBookmark();
                     }
                     return;
                 }
@@ -394,11 +387,7 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
                     }
                     else
                     {
-                        var targetBookmark = bookmarks.OrderBy(x => x.Position).FirstOrDefault(x => x.Position > MusicPlayer.Position);
-                        if (targetBookmark != null)
-                        {
-                            SeekTo(targetBookmark.Position);
-                        }
+                        MusicPlayer.SeekToNextBookmark();
                     }
                     return;
                 }

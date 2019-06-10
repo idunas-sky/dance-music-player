@@ -12,6 +12,7 @@ using Idunas.DanceMusicPlayer.Activities;
 using Idunas.DanceMusicPlayer.Models;
 using Java.Lang;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -101,6 +102,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         public bool HasNextSong => _currentSongIndex < _playlist?.Songs.Count - 1;
 
         public bool HasPreviousSong => _currentSongIndex > 0;
+
+        public bool HasBookmarks => CurrentSong?.Bookmarks.Any() ?? false;
 
         public Song CurrentSong
         {
@@ -239,6 +242,38 @@ namespace Idunas.DanceMusicPlayer.Services.Player
             }
 
             _mediaPlayer.SeekTo(position, MediaPlayerSeekMode.PreviousSync);
+        }
+
+        public void SeekToNextBookmark()
+        {
+            var currentSong = CurrentSong;
+            if (currentSong == null || !currentSong.Bookmarks.Any())
+            {
+                return;
+            }
+
+            var targetBookmark = currentSong.Bookmarks.OrderBy(x => x.Position).FirstOrDefault(x => x.Position > Position);
+            if (targetBookmark != null)
+            {
+                SeekTo(targetBookmark.Position);
+            }
+        }
+
+        public void SeekToPreviousBookmark()
+        {
+            var currentSong = CurrentSong;
+            if (currentSong == null || !currentSong.Bookmarks.Any())
+            {
+                return;
+            }
+
+            // Find the closest previous bookmark. We add some buffer to to the current position otherwise the 
+            // user would not be able to skip to the previous bookmark multiple times in a row.
+            var targetBookmark = currentSong.Bookmarks.OrderByDescending(x => x.Position).FirstOrDefault(x => Position - 600 > x.Position);
+            if (targetBookmark != null)
+            {
+                SeekTo(targetBookmark.Position);
+            }
         }
 
         public void LowerVolume()

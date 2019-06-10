@@ -21,6 +21,8 @@ namespace Idunas.DanceMusicPlayer.Services.Player
 
         bool HasPreviousSong { get; }
 
+        bool HasBookmarks { get; }
+
         PlayerState State { get; }
 
         int Position { get; }
@@ -46,6 +48,10 @@ namespace Idunas.DanceMusicPlayer.Services.Player
         void ChangeSpeed(float speed);
 
         void SeekTo(long position);
+
+        void SeekToPreviousBookmark();
+
+        void SeekToNextBookmark();
 
         void LowerVolume();
     }

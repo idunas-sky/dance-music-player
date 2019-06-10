@@ -31,6 +31,7 @@ namespace Idunas.DanceMusicPlayer.Services.Settings
                 SpeedMax = GetIntValue("speed_max", 110),
                 PositionClickAction = GetEnumValue("position_click_action", PositionDurationClickAction.ChangeSeconds10),
                 DurationClickAction = GetEnumValue("duration_click_action", PositionDurationClickAction.ChangeSeconds10),
+                EnableLockscreenSkipToBookmark = _preferences.GetBoolean("enable_lockscreen_skip_to_bookmark", true)
             };
         }
 

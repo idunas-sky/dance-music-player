@@ -42,6 +42,7 @@
     <string name="help_loop_marker">Loop-Marker gesetzt! Lange drücken, um den Marker wieder zu löschen.</string>
     <string name="import_export">Import / Export</string>
     <string name="import_playlist">Playlisten importieren</string>
+    <string name="lockscreen">Sperrbildschirm</string>
     <string name="message_no_playlists_for_export">Du hast noch keine Playlisten erstellt, die wir exportieren können</string>
     <string name="message_delete_playlist">Soll die Playlist \'{0}\' unwiderruflich gelöscht werden?</string>
     <string name="name">Name</string>
@@ -61,6 +62,11 @@
     <string name="save">Speichern</string>
     <string name="settings">Einstellungen</string>
     <string name="settings_duration_click">Bei Klick auf Länge des Liedes ...</string>
+    <string name="settings_enable_lockscreen_skip_to_bookmark">Nächstes / vorheriges Bookmark</string>
+    <string name="settings_enable_lockscreen_skip_to_bookmark_description">
+        Wenn diese Einstellung aktiv ist bewirken die Vor / Zurück Buttons auf dem Sperrbildschrim ein Springen zum 
+        nächsten / vorherigen Bookmark anstatt ein Springen zum nächsten / vorherigen Lied
+    </string>
     <string name="settings_position_click">Bei Klick auf akt. Position ...</string>
     <string name="settings_speed_max">Max. Abspielgeschwindigkeit</string>
     <string name="settings_speed_min">Min. Abspielgeschwindigkeit</string>
