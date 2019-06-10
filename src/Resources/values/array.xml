@@ -41,4 +41,38 @@
         <item>140%</item>
         <item>150%</item>
     </string-array>
+
+
+    <string-array name="position_action_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="position_action_labels">
+        <item>-5 Sekunden</item>
+        <item>-10 Sekunden</item>
+        <item>-15 Sekunden</item>
+        <item>-20 Sekunden</item>
+        <item>Zum vorherigen Bookmark</item>
+    </string-array>
+
+
+    <string-array name="duration_action_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="duration_action_labels">
+        <item>+5 Sekunden</item>
+        <item>+10 Sekunden</item>
+        <item>+15 Sekunden</item>
+        <item>+20 Sekunden</item>
+        <item>Zum nächsten Bookmark</item>
+    </string-array>
+
+
 </resources>

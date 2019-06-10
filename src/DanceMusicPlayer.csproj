@@ -112,6 +112,7 @@
     <Compile Include="Services\Player\PlayerState.cs" />
     <Compile Include="Services\PlaylistsService.cs" />
     <Compile Include="Services\Settings\AppSettings.cs" />
+    <Compile Include="Services\Settings\PositionDurationClickAction.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Util\AsyncHelper.cs" />
     <Compile Include="Util\MessageBox.cs" />
@@ -387,6 +388,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_app_logo.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values-en\array.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

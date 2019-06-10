@@ -13,6 +13,7 @@ using Idunas.DanceMusicPlayer.Services.Player;
 using Idunas.DanceMusicPlayer.Services.Settings;
 using Idunas.DanceMusicPlayer.Util;
 using System;
+using System.Linq;
 
 namespace Idunas.DanceMusicPlayer.Fragments.Player
 {
@@ -78,7 +79,9 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
             // Position
             _lblCurrentPosition = view.FindViewById<TextView>(Resource.Id.lbl_current_position);
+            _lblCurrentPosition.Click += HandleLabelPositionClick;
             _lblDuration = view.FindViewById<TextView>(Resource.Id.lbl_duration);
+            _lblDuration.Click += HandleLabelDurationClick;
             _seekBarPosition = view.FindViewById<SeekBar>(Resource.Id.seekBar_position);
             _seekBarPosition.ProgressChanged += HandlePositionChanged;
 
@@ -297,6 +300,116 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
             SeekTo(e.Progress);
         }
 
+
+        private void HandleLabelPositionClick(object sender, EventArgs e)
+        {
+            if (MusicPlayer == null)
+            {
+                return;
+            }
+
+            switch (_settingsService.Settings.PositionClickAction)
+            {
+                case PositionDurationClickAction.ChangeSeconds5:
+                {
+                    SeekTo(MusicPlayer.Position - 5000);
+                    return;
+                }
+                case PositionDurationClickAction.ChangeSeconds10:
+                {
+                    SeekTo(MusicPlayer.Position - 10000);
+                    return;
+                }
+                case PositionDurationClickAction.ChangeSeconds15:
+                {
+                    SeekTo(MusicPlayer.Position - 15000);
+                    return;
+                }
+                case PositionDurationClickAction.ChangeSeconds20:
+                {
+                    SeekTo(MusicPlayer.Position - 20000);
+                    return;
+                }
+                case PositionDurationClickAction.SkipToBookmark:
+                {
+                    var bookmarks = MusicPlayer?.CurrentSong?.Bookmarks;
+                    if (bookmarks == null || !bookmarks.Any())
+                    {
+                        SeekTo(MusicPlayer.Position - 10000);
+                    }
+                    else
+                    {
+                        // Find the closest previous bookmark. We add some buffer to to the current position otherwise the 
+                        // user would not be able to skip to the previous bookmark multiple times in a row.
+                        var targetBookmark = bookmarks.OrderByDescending(x => x.Position).FirstOrDefault(x => MusicPlayer.Position - 600 > x.Position);
+                        if (targetBookmark != null)
+                        {
+                            SeekTo(targetBookmark.Position);
+                        }
+                    }
+                    return;
+                }
+                default:
+                {
+                    return;
+                }
+            }
+        }
+
+        private void HandleLabelDurationClick(object sender, EventArgs e)
+        {
+            if (MusicPlayer == null)
+            {
+                return;
+            }
+
+            switch (_settingsService.Settings.DurationClickAction)
+            {
+                case PositionDurationClickAction.ChangeSeconds5:
+                {
+                    SeekTo(MusicPlayer.Position + 5000);
+                    return;
+                }
+                case PositionDurationClickAction.ChangeSeconds10:
+                {
+                    SeekTo(MusicPlayer.Position + 10000);
+                    return;
+                }
+                case PositionDurationClickAction.ChangeSeconds15:
+                {
+                    SeekTo(MusicPlayer.Position + 15000);
+                    return;
+                }
+                case PositionDurationClickAction.ChangeSeconds20:
+                {
+                    SeekTo(MusicPlayer.Position + 20000);
+                    return;
+                }
+                case PositionDurationClickAction.SkipToBookmark:
+                {
+                    var bookmarks = MusicPlayer?.CurrentSong?.Bookmarks;
+                    if (bookmarks == null || !bookmarks.Any())
+                    {
+                        SeekTo(MusicPlayer.Position + 10000);
+                    }
+                    else
+                    {
+                        var targetBookmark = bookmarks.OrderBy(x => x.Position).FirstOrDefault(x => x.Position > MusicPlayer.Position);
+                        if (targetBookmark != null)
+                        {
+                            SeekTo(targetBookmark.Position);
+                        }
+                    }
+                    return;
+                }
+                default:
+                {
+                    return;
+                }
+            }
+        }
+
+
         private void HandleToggleLoopingClick(object sender, EventArgs e)
         {
             if (MusicPlayer.CurrentSong == null)
@@ -438,9 +551,24 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         private void SeekTo(long position)
         {
+            if (MusicPlayer == null)
+            {
+                return;
+            }
+
+            if (position < 0)
+            {
+                position = 0;
+            }
+
+            if (position > MusicPlayer.Duration)
+            {
+                position = MusicPlayer.Duration;
+            }
+
             _seekBarPosition.Progress = (int)position;
             _lblCurrentPosition.Text = TimeSpan.FromMilliseconds(position).ToString(@"mm\:ss");
-            MusicPlayer?.SeekTo(position);
+            MusicPlayer.SeekTo(position);
         }
 
         private void SetDuration(long duration)
@@ -457,8 +585,8 @@ namespace Idunas.DanceMusicPlayer.Fragments.Player
 
         private void SetSpeed(int speed)
         {
-            PlaybackSpeed = speed;
             MusicPlayer.CurrentPlaylist.Speed = speed;
+            PlaybackSpeed = speed;
             PlaylistsService.Instance.Save();
         }
 

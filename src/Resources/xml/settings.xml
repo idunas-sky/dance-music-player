@@ -14,6 +14,18 @@
             android:entries="@array/max_speed_labels"
             android:entryValues="@array/max_speed_values">
         </ListPreference>
+        <ListPreference
+            android:title="@string/settings_position_click"
+            android:key="position_click_action"
+            android:entries="@array/position_action_labels"
+            android:entryValues="@array/position_action_values">
+        </ListPreference>
+        <ListPreference
+            android:title="@string/settings_duration_click"
+            android:key="duration_click_action"
+            android:entries="@array/duration_action_labels"
+            android:entryValues="@array/duration_action_values">
+        </ListPreference>
     </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory
         android:title="@string/import_export">

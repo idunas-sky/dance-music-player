@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using Android.Preferences;
 using System;
+using System.Collections.Generic;
 
 namespace Idunas.DanceMusicPlayer.Services.Settings
 {
@@ -11,44 +12,65 @@ namespace Idunas.DanceMusicPlayer.Services.Settings
 
         public event EventHandler<AppSettings> SettingsChanged;
 
-        public AppSettings Settings
-        {
-            get
-            {
-                return new AppSettings
-                {
-                    SpeedMin = GetStringAsInt(_preferences, "speed_min", 60),
-                    SpeedMax = GetStringAsInt(_preferences, "speed_max", 110)
-                };
-            }
-        }
+        public AppSettings Settings { get; private set; }
 
         public SettingsService(Context context)
         {
             _context = context;
             _preferences = PreferenceManager.GetDefaultSharedPreferences(_context);
             _preferences.RegisterOnSharedPreferenceChangeListener(this);
+
+            Settings = InitAppSettings();
         }
 
-        private int GetStringAsInt(ISharedPreferences preferences, string key, int defaultValue)
+        private AppSettings InitAppSettings()
         {
-            var value = preferences.GetString(key, null);
+            return new AppSettings
+            {
+                SpeedMin = GetIntValue("speed_min", 60),
+                SpeedMax = GetIntValue("speed_max", 110),
+                PositionClickAction = GetEnumValue("position_click_action", PositionDurationClickAction.ChangeSeconds10),
+                DurationClickAction = GetEnumValue("duration_click_action", PositionDurationClickAction.ChangeSeconds10),
+            };
+        }
+
+        private int GetIntValue(string key, int defaultValue)
+        {
+            var value = _preferences.GetString(key, null);
             if (value == null)
             {
                 return defaultValue;
             }
 
-            if (int.TryParse(value, out var result))
+            if (!int.TryParse(value, out var result))
             {
-                return result;
+                return defaultValue;
             }
 
-            return defaultValue;
+            return result;
+        }
+
+        private T GetEnumValue<T>(string key, T defaultValue) where T : struct, IConvertible
+        {
+            var value = _preferences.GetString(key, null);
+            if (value == null)
+            {
+                return defaultValue;
+            }
+
+            if (!int.TryParse(value, out var intValue))
+            {
+                return defaultValue;
+            }
+
+            return (T)Enum.ToObject(typeof(T), intValue);
         }
 
         public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
         {
             _preferences = sharedPreferences;
+            Settings = InitAppSettings();
+
             SettingsChanged?.Invoke(this, Settings);
         }
     }

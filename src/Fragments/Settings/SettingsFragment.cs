@@ -62,6 +62,87 @@ namespace Idunas.DanceMusicPlayer.Fragments.Settings
             _btnExportPlaylist.PreferenceClick += HandleExportPlaylistClick;
         }
 
+        public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)
+        {
+            // Do nothing
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            PreferenceScreen.SharedPreferences.RegisterOnSharedPreferenceChangeListener(this);
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+            PreferenceScreen.SharedPreferences.UnregisterOnSharedPreferenceChangeListener(this);
+        }
+
+        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        {
+            UpdatePreference(FindPreference(key));
+        }
+
+        private void UpdatePreference(Preference preference)
+        {
+            if (preference is PreferenceCategory category)
+            {
+                for (var i = 0; i < category.PreferenceCount; i++)
+                {
+                    UpdatePreference(category.GetPreference(i));
+                }
+
+                return;
+            }
+
+            if (preference is EditTextPreference editTextPreference)
+            {
+                editTextPreference.Summary = FormatValue(editTextPreference.Text);
+            }
+
+            if (preference is ListPreference listPreference)
+            {
+                listPreference.Summary = FormatValue(listPreference.Entry);
+            }
+        }
+
+        private string FormatValue(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return GetString(Resource.String.default_value);
+            }
+
+            return value.Replace("%", "%%");
+        }
+
+        #region --- Permission management
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            if (PermissionRequest.WasGranted(grantResults))
+            {
+                switch (requestCode)
+                {
+                    case Constants.PermissionRequests.ExportPlaylists:
+                    {
+                        ExportPlaylists().ConfigureAwait(false);
+                        return;
+                    }
+                    case Constants.PermissionRequests.ImportPlaylists:
+                    {
+                        _btnImportPlaylist.PerformClick();
+                        return;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region --- Importing / Exporting playlists
+
         private async void HandleImportPlaylistClick(object sender, Preference.PreferenceClickEventArgs e)
         {
             if (!PermissionRequest.Storage.Request(
@@ -147,78 +228,6 @@ namespace Idunas.DanceMusicPlayer.Fragments.Settings
             }
         }
 
-        public override void OnResume()
-        {
-            base.OnResume();
-            PreferenceScreen.SharedPreferences.RegisterOnSharedPreferenceChangeListener(this);
-        }
-
-        public override void OnPause()
-        {
-            base.OnPause();
-            PreferenceScreen.SharedPreferences.UnregisterOnSharedPreferenceChangeListener(this);
-        }
-
-        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
-        {
-            UpdatePreference(FindPreference(key));
-        }
-
-        private void UpdatePreference(Preference preference)
-        {
-            if (preference is PreferenceCategory category)
-            {
-                for (var i = 0; i < category.PreferenceCount; i++)
-                {
-                    UpdatePreference(category.GetPreference(i));
-                }
-
-                return;
-            }
-
-            if (preference is EditTextPreference editTextPreference)
-            {
-                editTextPreference.Summary = FormatValue(editTextPreference.Text);
-            }
-
-            if (preference is ListPreference listPreference)
-            {
-                listPreference.Summary = FormatValue(listPreference.Entry);
-            }
-        }
-
-        public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)
-        {
-        }
-
-        private string FormatValue(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return GetString(Resource.String.default_value);
-            }
-
-            return value.Replace("%", "%%");
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            if (PermissionRequest.WasGranted(grantResults))
-            {
-                switch (requestCode)
-                {
-                    case Constants.PermissionRequests.ExportPlaylists:
-                    {
-                        ExportPlaylists().ConfigureAwait(false);
-                        return;
-                    }
-                    case Constants.PermissionRequests.ImportPlaylists:
-                    {
-                        _btnImportPlaylist.PerformClick();
-                        return;
-                    }
-                }
-            }
-        }
+        #endregion
     }
 }

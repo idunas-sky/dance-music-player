@@ -59,6 +59,8 @@
     <string name="rationale_play_songs">We need to access your files to allow you to play songs.</string>
     <string name="save">Save</string>
     <string name="settings">Settings</string>
+    <string name="settings_duration_click">When clicking the song-duration ...</string>
+    <string name="settings_position_click">When clicking the current song-position ...</string>
     <string name="settings_speed_max">Max. playback speed</string>
     <string name="settings_speed_min">Min. playback speed</string>
     <string name="speed">Speed</string>

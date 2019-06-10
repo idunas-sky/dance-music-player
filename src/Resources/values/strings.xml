@@ -60,6 +60,8 @@
     <string name="rationale_play_songs">Wir benötigen Zugriff auf deine Dateien, damit du Lieder abspielen kannst.</string>
     <string name="save">Speichern</string>
     <string name="settings">Einstellungen</string>
+    <string name="settings_duration_click">Bei Klick auf Länge des Liedes ...</string>
+    <string name="settings_position_click">Bei Klick auf akt. Position ...</string>
     <string name="settings_speed_max">Max. Abspielgeschwindigkeit</string>
     <string name="settings_speed_min">Min. Abspielgeschwindigkeit</string>
     <string name="speed">Geschwindigkeit</string>

@@ -120,6 +120,12 @@ namespace Idunas.DanceMusicPlayer
 		public partial class Array
 		{
 			
+			// aapt resource value: 0x7f0f0007
+			public const int duration_action_labels = 2131689479;
+			
+			// aapt resource value: 0x7f0f0006
+			public const int duration_action_values = 2131689478;
+			
 			// aapt resource value: 0x7f0f0003
 			public const int max_speed_labels = 2131689475;
 			
@@ -131,6 +137,12 @@ namespace Idunas.DanceMusicPlayer
 			
 			// aapt resource value: 0x7f0f0000
 			public const int min_speed_values = 2131689472;
+			
+			// aapt resource value: 0x7f0f0005
+			public const int position_action_labels = 2131689477;
+			
+			// aapt resource value: 0x7f0f0004
+			public const int position_action_values = 2131689476;
 			
 			static Array()
 			{
@@ -4004,8 +4016,8 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f0b002b
 			public const int key_import_playlist = 2131427371;
 			
-			// aapt resource value: 0x7f0b0059
-			public const int license_material_design_icons = 2131427417;
+			// aapt resource value: 0x7f0b005b
+			public const int license_material_design_icons = 2131427419;
 			
 			// aapt resource value: 0x7f0b0041
 			public const int message_delete_playlist = 2131427393;
@@ -4080,22 +4092,28 @@ namespace Idunas.DanceMusicPlayer
 			public const int settings = 2131427409;
 			
 			// aapt resource value: 0x7f0b0052
-			public const int settings_speed_max = 2131427410;
+			public const int settings_duration_click = 2131427410;
 			
 			// aapt resource value: 0x7f0b0053
-			public const int settings_speed_min = 2131427411;
+			public const int settings_position_click = 2131427411;
 			
 			// aapt resource value: 0x7f0b0054
-			public const int speed = 2131427412;
+			public const int settings_speed_max = 2131427412;
+			
+			// aapt resource value: 0x7f0b0055
+			public const int settings_speed_min = 2131427413;
+			
+			// aapt resource value: 0x7f0b0056
+			public const int speed = 2131427414;
 			
 			// aapt resource value: 0x7f0b0028
 			public const int status_bar_notification_info_overflow = 2131427368;
 			
-			// aapt resource value: 0x7f0b0055
-			public const int success = 2131427413;
+			// aapt resource value: 0x7f0b0057
+			public const int success = 2131427415;
 			
-			// aapt resource value: 0x7f0b0056
-			public const int title_delete_playlist = 2131427414;
+			// aapt resource value: 0x7f0b0058
+			public const int title_delete_playlist = 2131427416;
 			
 			// aapt resource value: 0x7f0b0000
 			public const int v7_preference_off = 2131427328;
@@ -4103,11 +4121,11 @@ namespace Idunas.DanceMusicPlayer
 			// aapt resource value: 0x7f0b0001
 			public const int v7_preference_on = 2131427329;
 			
-			// aapt resource value: 0x7f0b0057
-			public const int x_song = 2131427415;
+			// aapt resource value: 0x7f0b0059
+			public const int x_song = 2131427417;
 			
-			// aapt resource value: 0x7f0b0058
-			public const int x_songs = 2131427416;
+			// aapt resource value: 0x7f0b005a
+			public const int x_songs = 2131427418;
 			
 			static String()
 			{
